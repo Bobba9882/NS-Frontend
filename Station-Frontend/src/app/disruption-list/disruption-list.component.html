@@ -1,0 +1,17 @@
+<h2>Disruption list</h2>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Starts</th>
+    <th>Ends</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let disruption of Disruptions">
+    <td>{{disruption.title}}</td>
+    <td>{{disruption.start | date:"short"}}</td>
+    <td>{{disruption.end | date:"short"}}</td>
+  </tr>
+  </tbody>
+</table>
