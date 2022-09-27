@@ -5,13 +5,15 @@
     <th>Name</th>
     <th>Starts</th>
     <th>Ends</th>
+    <th>Type</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let disruption of Disruptions">
-    <td>{{disruption.title}}</td>
+    <td [ngStyle]="{'color': disruption.isActive ? '#EC0045' : '#FE7F2F'}">{{disruption.title}}</td>
     <td>{{disruption.start | date:"short"}}</td>
     <td>{{disruption.end | date:"short"}}</td>
+    <td>{{disruption.type}}</td>
   </tr>
   </tbody>
 </table>
