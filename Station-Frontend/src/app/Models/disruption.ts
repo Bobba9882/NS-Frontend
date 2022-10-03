@@ -1,4 +1,4 @@
-export class Disruption{
+export interface Disruption{
   id : string;
   type : string;
   title : string;

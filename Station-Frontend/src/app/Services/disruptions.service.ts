@@ -10,14 +10,13 @@ import {Trip} from "../Models/trip";
 
 export class DisruptionsService {
 
-  private baseURl: string = "http://localhost:8080/api/v1/"
+  private baseURl: string = "http://localhost:8080/api/v1/disruptions"
 
 
   constructor(private httpClient: HttpClient) {
   }
 
   getDisruptions(): Observable<Disruption[]> {
-    this.baseURl += "disruptions"
     return this.httpClient.get<Disruption[]>(`${this.baseURl}`)
   }
 }

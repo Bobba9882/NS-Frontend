@@ -2,6 +2,45 @@
   <div class="row justify-content-center">
     <div class="col-6">
       <h1>Plan je reis</h1>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <label for="fromStation">
+          From Station:
+        </label>
+        <input id = "fromStation" type="text" [(ngModel)]="fromStation" name="fromStation">
+      </div>
+      <br>
+      <div>
+        <label for="toStation">
+          To station:
+        </label>
+        <input id = "toStation" type="text" [(ngModel)]="toStation" name="toStation">
+      </div>
+      <br>
+      <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div class="row justify-content-center">
+    <ol class="col-3">
+      <li *ngFor="let trip of Trips" style="list-style: none; color: #003082">
+        <div class="card" style="margin-bottom: 5px">
+          <div class="card-header">
+            {{ trip.legs[0].origin.plannedDateTime | date : "HH:mm"}}
+            <i class="bi bi-arrow-right"></i>
+            {{ trip.legs[0].destination.plannedDateTime | date : "HH:mm"}}
+          </div>
+          <div class="card-body">
+            {{trip.plannedDurationInMinutes}} minutes
+          </div>
+        </div>
+      </li>
+    </ol>
+    <div class="col-9">
 
     </div>
   </div>
