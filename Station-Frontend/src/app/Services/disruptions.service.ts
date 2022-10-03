@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Disruption} from "./disruption";
-import {Trip} from "./trip";
+import {Disruption} from "../Models/disruption";
+import {Trip} from "../Models/trip";
 
 @Injectable({
   providedIn: 'root'

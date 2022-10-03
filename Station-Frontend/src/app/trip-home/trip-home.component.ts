@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {TripPlannerService} from "../trip-planner.service";
 
 @Component({
   selector: 'app-trip-home',
@@ -8,7 +7,7 @@ import {TripPlannerService} from "../trip-planner.service";
 })
 export class TripHomeComponent implements OnInit {
 
-  constructor(private tripPlannerService : TripPlannerService) { }
+  constructor() { }
 
   ngOnInit(): void {
 
