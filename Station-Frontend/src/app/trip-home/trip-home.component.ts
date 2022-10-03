@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TripsService} from "../Services/trips.service";
 import {Trip} from "../Models/trip";
-import {FormBuilder} from "@angular/forms";
 import {TitleCasePipe} from "@angular/common";
 
 @Component({
@@ -11,19 +10,16 @@ import {TitleCasePipe} from "@angular/common";
 })
 export class TripHomeComponent implements OnInit {
 
-  constructor(private tripsService: TripsService, private titlecasePipe:TitleCasePipe) {
+  constructor(private tripsService: TripsService, private titlecasePipe: TitleCasePipe) {
   }
 
   Trips: Trip[]
 
   ngOnInit(): void {
-    this.tripsService.getTrips("Rijen", "Tilburg").subscribe({
-      next: value => this.Trips = value.trips
-    })
   }
 
-  fromStation: string = ""
-  toStation: string = ""
+  fromStation: string
+  toStation: string
 
   onSubmit() {
     this.fromStation = this.titlecasePipe.transform(this.fromStation)
