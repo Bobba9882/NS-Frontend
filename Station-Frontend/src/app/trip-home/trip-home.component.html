@@ -18,7 +18,7 @@
             <input id="fromStation" type="text" [(ngModel)]="fromStation" name="fromStation" class="form-control">
           </div>
           <div class="col-auto align-self-center">
-            <i class="bi bi-arrow-left-right"></i>
+            <i class="bi bi-arrow-left-right" (click)="onSwap()"></i>
           </div>
           <div class="input-group col-md">
             <span class="input-group-text">naar</span>
@@ -95,10 +95,9 @@
       </div>
 
 
-      <!--      the route that is taken-->
+      <!--      shows the route-->
       <div class="row justify-content-center">
-        <ol>
-
+        <ol class="col-auto">
           <li>{{selectedTrip.legs[0].origin.name}}</li>
 
           <li *ngFor="let stop of selectedTrip.legs">

@@ -36,4 +36,10 @@ export class TripHomeComponent implements OnInit {
     this.selectedTrip = this.Trips[id]
   }
 
+  onSwap(){
+    let temp = this.fromStation
+    this.fromStation = this.toStation
+    this.toStation = temp
+  }
+
 }
