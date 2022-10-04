@@ -1,47 +1,115 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-6">
-      <h1>Plan je reis</h1>
+<div class="mt-xxl-5">
+
+  <!--  header-->
+  <div class="row p-4" style="background-color: white; border-radius: 5px">
+    <div class="row">
+      <div class="col-auto">
+        <h1>Plan je reis</h1>
+      </div>
+    </div>
+
+
+    <!--    input form-->
+    <div class="row justify-content-center">
+      <form (ngSubmit)="onSubmit()">
+        <div class="row mb-3">
+          <div class="input-group col-md">
+            <span class="input-group-text">van</span>
+            <input id="fromStation" type="text" [(ngModel)]="fromStation" name="fromStation" class="form-control">
+          </div>
+          <div class="col-auto align-self-center">
+            <i class="bi bi-arrow-left-right"></i>
+          </div>
+          <div class="input-group col-md">
+            <span class="input-group-text">naar</span>
+            <input id="toStation" type="text" [(ngModel)]="toStation" name="toStation" class="form-control">
+          </div>
+        </div>
+        <div class="row justify-content-end">
+          <div class="col-auto">
+            <button class="btn btn-primary" type="submit">Submit</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
-  <div class="row justify-content-center">
-    <form (ngSubmit)="onSubmit()">
-      <div>
-        <label for="fromStation">
-          From Station:
-        </label>
-        <input id = "fromStation" type="text" [(ngModel)]="fromStation" name="fromStation">
-      </div>
-      <br>
-      <div>
-        <label for="toStation">
-          To station:
-        </label>
-        <input id = "toStation" type="text" [(ngModel)]="toStation" name="toStation">
-      </div>
-      <br>
-      <button class="btn btn-success" type="submit">Submit</button>
-    </form>
-  </div>
 
-  <div class="row justify-content-center" *ngIf="Trips">
-    <ol class="col-3">
-      <li *ngFor="let trip of Trips" style="list-style: none; color: #003082">
-        <div class="card" style="margin-bottom: 5px">
-          <div class="card-header">
-            {{ trip.legs[0].origin.plannedDateTime | date : "HH:mm"}}
-            <i class="bi bi-arrow-right"></i>
-            {{ trip.legs[0].destination.plannedDateTime | date : "HH:mm"}}
+  <div class="row pt-4" *ngIf="Trips">
+    <!--    shows trips on side-->
+    <ul class="col-4 list-group">
+      <div class="list-group-item list-group-item-action p-3" *ngFor="let trip of Trips; let i = index"
+           [attr.data-index]="i" style="list-style: none" (click)="onSelect(i)">
+        <div>
+          {{ trip.legs[0].origin.plannedDateTime | date : "HH:mm"}}
+          <i class="bi bi-arrow-right"></i>
+          {{ trip.legs[trip.legs.length - 1].destination.plannedDateTime | date : "HH:mm"}}
+        </div>
+        <div>
+          {{trip.plannedDurationInMinutes}} minuten
+        </div>
+      </div>
+    </ul>
+
+    <!--    code for the selected trip-->
+    <div class="col ms-auto" style="background-color: white; border-radius: 5px" *ngIf="selectedTrip">
+      <div class="row p-4">
+
+        <!--        arrival and department times-->
+        <div class="col-auto">
+          <div class="row">
+            <p class="fw-light m-0">Vertrek</p>
           </div>
-          <div class="card-body">
-            {{trip.plannedDurationInMinutes}} minutes
+          <div class="row">
+            <h4 class="m-0">
+              {{ selectedTrip.legs[0].origin.plannedDateTime | date : "HH:mm"}}
+            </h4>
           </div>
         </div>
-      </li>
-    </ol>
-    <div class="col-9">
+
+        <div class="col-auto align-self-end">
+          <i class="bi bi-arrow-right"></i>
+        </div>
+
+        <div class="col-auto">
+          <div class="row">
+            <p class="fw-light m-0">Aankomst</p>
+          </div>
+          <div class="row">
+            <h4 class="m-0">
+              {{ selectedTrip.legs[selectedTrip.legs.length - 1].destination.plannedDateTime | date : "HH:mm"}}
+            </h4>
+          </div>
+        </div>
+
+        <!--        more information e.g tracks and time-->
+        <div class="col ms-auto">
+          <div class="row justify-content-end">
+            <i class="bi bi-clock col-auto"></i>
+            <p class="col-auto p-0 m-0">{{selectedTrip.plannedDurationInMinutes}} minuten</p>
+          </div>
+          <div class="row justify-content-end">
+            <p class="col-auto m-0">spoor {{selectedTrip.legs[0].origin.plannedTrack}}</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!--      the route that is taken-->
+      <div class="row justify-content-center">
+        <ol>
+
+          <li>{{selectedTrip.legs[0].origin.name}}</li>
+
+          <li *ngFor="let stop of selectedTrip.legs">
+            {{stop.destination.name}}
+          </li>
+        </ol>
+      </div>
+
 
     </div>
   </div>
 </div>
+
+

@@ -15,6 +15,8 @@ export class TripHomeComponent implements OnInit {
 
   Trips: Trip[]
 
+  selectedTrip : Trip
+
   ngOnInit(): void {
   }
 
@@ -25,8 +27,13 @@ export class TripHomeComponent implements OnInit {
     this.fromStation = this.titlecasePipe.transform(this.fromStation)
     this.toStation = this.titlecasePipe.transform(this.toStation)
     this.tripsService.getTrips(this.fromStation, this.toStation).subscribe({
-      next: value => this.Trips = value.trips
+      next: value => this.Trips = value.trips,
+      complete: () => this.selectedTrip = this.Trips[2]
     })
+  }
+
+  onSelect(id: number) {
+    this.selectedTrip = this.Trips[id]
   }
 
 }
