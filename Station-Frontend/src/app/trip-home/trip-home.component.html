@@ -28,6 +28,15 @@
         <div class="row">
 
           <div class="col-auto">
+            <button class="btn btn-primary" [disabled]="!isArrival" (click)="onArrival(false)">Vertrek</button>
+          </div>
+
+          <div class="col-auto">
+            <button class="btn btn-primary" [disabled]="isArrival" (click)="onArrival(true)" >Aankomst</button>
+          </div>
+
+
+          <div class="col-auto">
             <input type="date" id="tripDate" [(ngModel)]="tripDate" name="tripDate" class="form-control">
           </div>
 

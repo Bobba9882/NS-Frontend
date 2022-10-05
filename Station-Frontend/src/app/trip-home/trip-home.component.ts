@@ -25,14 +25,19 @@ export class TripHomeComponent implements OnInit {
   toStation: string
   tripTime: string
   tripDate: string
+  isArrival : boolean = false
 
   onSubmit() {
    this.toTitlecase()
     let date: string = new Date(this.tripDate + " " + this.tripTime).toISOString()
-    this.tripsService.getTrips(this.fromStation, this.toStation, date).subscribe({
+    this.tripsService.getTrips(this.fromStation, this.toStation, date, this.isArrival).subscribe({
       next: value => this.Trips = value.trips,
       complete: () => this.selectedTrip = this.Trips[2]
     })
+  }
+
+  onArrival(bool : boolean){
+    this.isArrival = bool
   }
 
   toTitlecase(){
