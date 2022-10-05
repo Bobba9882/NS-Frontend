@@ -7,7 +7,7 @@ import { DisruptionListComponent } from './disruption-list/disruption-list.compo
 import {HttpClientModule} from "@angular/common/http";
 import { TripHomeComponent } from './trip-home/trip-home.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {TitleCasePipe} from "@angular/common";
+import {DatePipe, TitleCasePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -22,7 +22,10 @@ import {TitleCasePipe} from "@angular/common";
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [TitleCasePipe],
+  providers: [
+    TitleCasePipe,
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

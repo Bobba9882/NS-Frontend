@@ -14,10 +14,11 @@ export class TripsService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getTrips(fromStation: string, toStation: string): Observable<Trips> {
+  getTrips(fromStation: string, toStation: string, date : string): Observable<Trips> {
     let params = new HttpParams()
       .set("fromStation", fromStation)
       .set("toStation", toStation)
+      .set("date",date)
 
     return this.httpClient.get<Trips>(`${this.baseURl}`, {params : params})
   }
