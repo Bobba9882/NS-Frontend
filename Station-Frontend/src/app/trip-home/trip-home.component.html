@@ -27,12 +27,12 @@
         </div>
         <div class="row">
 
-          <div class="col-auto">
-            <button class="btn btn-primary" [disabled]="!isArrival" (click)="onArrival(false)">Vertrek</button>
+          <div class="col-auto" style="padding-right: 0">
+            <button class="btn" [ngClass]="{'btn-primary': !isArrival,'btn-light': isArrival}" (click)="onArrival(false)" style="border-radius: 5px 0 0 5px">Vertrek</button>
           </div>
 
-          <div class="col-auto">
-            <button class="btn btn-primary" [disabled]="isArrival" (click)="onArrival(true)" >Aankomst</button>
+          <div class="col-auto" style="padding-left: 0">
+            <button class="btn" [ngClass]="{'btn-primary': isArrival,'btn-light': !isArrival}" (click)="onArrival(true)" style="border-radius: 0 5px 5px 0">Aankomst</button>
           </div>
 
 
