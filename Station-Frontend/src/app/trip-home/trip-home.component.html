@@ -1,0 +1,199 @@
+<div class="mt-xxl-5 pb-4">
+
+  <!--  header-->
+  <div class="row p-4" style="background-color: white; border-radius: 5px">
+    <div class="row">
+      <div class="col-auto">
+        <h1>Plan je reis</h1>
+      </div>
+    </div>
+
+
+    <!--    input form-->
+    <div class="row justify-content-center">
+      <form (ngSubmit)="onSubmit()">
+        <div class="row mb-3">
+          <div class="input-group col-md">
+            <span class="input-group-text">van</span>
+            <input id="fromStation" type="text" [(ngModel)]="fromStation" name="fromStation" class="form-control">
+          </div>
+          <div class="col-auto align-self-center">
+            <i class="bi bi-arrow-left-right" (click)="onSwap()"></i>
+          </div>
+          <div class="input-group col-md">
+            <span class="input-group-text">naar</span>
+            <input id="toStation" type="text" [(ngModel)]="toStation" name="toStation" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+
+          <div class="col-auto" style="padding-right: 0">
+            <button class="btn" [ngClass]="{'btn-primary': !isArrival,'btn-light': isArrival}" (click)="onArrival(false)" style="border-radius: 5px 0 0 5px">Vertrek</button>
+          </div>
+
+          <div class="col-auto" style="padding-left: 0">
+            <button class="btn" [ngClass]="{'btn-primary': isArrival,'btn-light': !isArrival}" (click)="onArrival(true)" style="border-radius: 0 5px 5px 0">Aankomst</button>
+          </div>
+
+
+          <div class="col-auto">
+            <input type="date" id="tripDate" [(ngModel)]="tripDate" name="tripDate" class="form-control">
+          </div>
+
+          <div class="col-auto">
+            <input type="time" id="tripTime" [(ngModel)]="tripTime" name="tripTime" class="form-control">
+          </div>
+
+          <div class="col-auto align-self-center" (click)="onReset()">
+            <div class="btn">
+              <div class="row">
+                <i class="bi bi-arrow-repeat col-auto p-0 m-0 h5"></i>
+                <p class="col-auto p-0 m-0 h5">Nu</p>
+              </div>
+            </div>
+
+
+          </div>
+          <div class="col-auto ms-auto">
+            <button class="btn btn-primary" type="submit">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="row pt-4" *ngIf="Trips">
+    <!--    shows trips on side-->
+    <ul class="col-4 list-group">
+      <div class="list-group-item list-group-item-action p-3" *ngFor="let trip of Trips; let i = index"
+           [attr.data-index]="i" style="list-style: none" (click)="onSelect(i)">
+        <div>
+          {{ trip.legs[0].origin.plannedDateTime | date : "HH:mm"}}
+          <i class="bi bi-arrow-right"></i>
+          {{ trip.legs[trip.legs.length - 1].destination.plannedDateTime | date : "HH:mm"}}
+        </div>
+        <div>
+          {{trip.plannedDurationInMinutes}} minuten
+        </div>
+      </div>
+    </ul>
+
+    <!--    code for the selected trip-->
+    <div class="col ms-auto p-4" style="background-color: white; border-radius: 5px" *ngIf="selectedTrip">
+      <div class="row ">
+
+        <!--        arrival and department times-->
+        <div class="col-auto">
+          <div class="row">
+            <p class="fw-light m-0">Vertrek</p>
+          </div>
+          <div class="row">
+            <h4 class="m-0">
+              {{ selectedTrip.legs[0].origin.plannedDateTime | date : "HH:mm"}}
+            </h4>
+          </div>
+        </div>
+
+        <div class="col-auto align-self-end">
+          <i class="bi bi-arrow-right"></i>
+        </div>
+
+        <div class="col-auto">
+          <div class="row">
+            <p class="fw-light m-0">Aankomst</p>
+          </div>
+          <div class="row">
+            <h4 class="m-0">
+              {{ selectedTrip.legs[selectedTrip.legs.length - 1].destination.plannedDateTime | date : "HH:mm"}}
+            </h4>
+          </div>
+        </div>
+
+        <!--        more information e.g tracks and time-->
+        <div class="col ms-auto">
+          <div class="row justify-content-end">
+            <i class="bi bi-clock col-auto"></i>
+            <p class="col-auto p-0 m-0">{{selectedTrip.plannedDurationInMinutes}} minuten</p>
+          </div>
+        </div>
+      </div>
+
+
+      <!--      shows the route-->
+      <div class="row pt-4">
+        <ol class="col-12" style="list-style: none">
+
+          <!--          shows the first station-->
+          <li class="row">
+            <h5 class="col-1">{{selectedTrip.legs[0].origin.plannedDateTime | date : "HH:mm"}}</h5>
+            <h5 class="col-auto"> {{selectedTrip.legs[0].origin.name}} </h5>
+
+            <!--            shows departure track-->
+            <div class="col ms-auto">
+              <div class="row justify-content-end">
+                <p class="col-auto m-0">spoor {{selectedTrip.legs[0].origin.plannedTrack}}</p>
+              </div>
+            </div>
+
+          </li>
+
+          <!--          shows what direction the train is going-->
+          <hr>
+          <li class="row">
+            <div class="col-1 text-center">
+              <i class="bi bi-train-front" style="font-size: 25px"></i>
+            </div>
+            <p class="col-auto align-self-center m-0"> richting {{selectedTrip.legs[0].direction}}</p>
+          </li>
+          <hr>
+
+          <!--          for loop for all transfer stations-->
+          <ng-container *ngFor="let stop of selectedTrip.legs|slice:1; let i = index">
+            <li class="row">
+              <h5 class="col-1">{{stop.origin.plannedDateTime | date : "HH:mm"}}</h5>
+              <h5 class="col-auto"> {{stop.origin.name}} </h5>
+
+              <div class="col ms-auto">
+
+                <div class="row justify-content-end">
+                  <p class="col-auto m-0 fw-light">spoor {{selectedTrip.legs[i].destination.plannedTrack}}</p>
+                </div>
+
+                <div class="row justify-content-end">
+                  <p class="col-auto m-0">spoor {{selectedTrip.legs[i + 1].origin.plannedTrack}}</p>
+                </div>
+              </div>
+
+            </li>
+
+            <hr>
+            <li class="row">
+              <div class="col-1 text-center">
+                <i class="bi bi-train-front" style="font-size: 25px"></i>
+              </div>
+              <p class="col align-self-end">richting {{stop.direction}}</p>
+            </li>
+            <hr>
+          </ng-container>
+
+          <!--          shows information about the destionation-->
+          <li class="row">
+            <h5
+              class="col-1">{{selectedTrip.legs[selectedTrip.legs.length - 1].destination.plannedDateTime | date : "HH:mm"}}</h5>
+            <h5 class="col-auto"> {{selectedTrip.legs[selectedTrip.legs.length - 1].destination.name}} </h5>
+
+            <div class="col ms-auto">
+              <div class="row justify-content-end">
+                <p class="col-auto m-0">
+                  spoor {{selectedTrip.legs[selectedTrip.legs.length - 1].destination.plannedTrack}}</p>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+

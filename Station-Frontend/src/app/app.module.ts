@@ -5,18 +5,27 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { DisruptionListComponent } from './disruption-list/disruption-list.component';
 import {HttpClientModule} from "@angular/common/http";
+import { TripHomeComponent } from './trip-home/trip-home.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {DatePipe, TitleCasePipe} from "@angular/common";
 
 @NgModule({
   declarations: [
     AppComponent,
-    DisruptionListComponent
+    DisruptionListComponent,
+    TripHomeComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [
+    TitleCasePipe,
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
