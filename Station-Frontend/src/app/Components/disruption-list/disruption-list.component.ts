@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Disruption} from "../Models/disruption";
-import {DisruptionsService} from "../Services/disruptions.service";
+import {Disruption} from "../../Models/disruption";
+import {DisruptionsService} from "../../Services/disruptions.service";
 
 @Component({
   selector: 'app-disruption-list',
