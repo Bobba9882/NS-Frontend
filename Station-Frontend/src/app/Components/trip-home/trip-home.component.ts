@@ -3,6 +3,7 @@ import {TripsService} from "../../Services/trips.service";
 import {Trip} from "../../Models/trip";
 import {DatePipe, TitleCasePipe} from "@angular/common";
 import {AuthService} from "../../Services/auth.service";
+import {UserService} from "../../Services/user.service";
 
 @Component({
   selector: 'app-trip-home',

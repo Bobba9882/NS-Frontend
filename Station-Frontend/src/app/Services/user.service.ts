@@ -1,29 +1,27 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {BehaviorSubject, Observable} from "rxjs";
-import {User} from "../Models/user";
-import {Trips} from "../Models/trip";
+import {Observable} from "rxjs";
 import {Token} from "../Models/token";
+import {User} from "../Models/user";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private baseURl: string = "http://localhost:9090/api/v1/token"
+  private baseURl: string = "http://localhost:9090/api/v1/user"
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
-  getToken(email: string, password: string): Observable<Token>{
-    let meow='bobba'
-    let meowword='247004844'
+  login(email: string, password: string): Observable<User> {
+
+    let headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.getItem("auth token")});
+    let params = new HttpParams()
+      .set("email", email)
+      .set("password", password);
 
 
-    let headers = new HttpHeaders({Authorization: 'Basic '+ window.btoa(meow+ ":"+ meowword)});
-    headers = headers.append("responseType","text")
-
-
-
-    return this.httpClient.post<Token>(`${this.baseURl}`, {}, {headers})
+    return this.httpClient.get<User>(`${this.baseURl}`, {headers : headers, params : params})
   }
 }
