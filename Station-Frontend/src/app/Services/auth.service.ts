@@ -1,4 +1,4 @@
-import {enableProdMode, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {TokenService} from "./token.service";
 import {BehaviorSubject, tap} from "rxjs";
 import {UserService} from "./user.service";
@@ -25,7 +25,6 @@ export class AuthService {
     return this.tokenService.getToken(email,password).pipe(
       tap(response => {
         localStorage.setItem("auth token", response.text)
-        console.log("token set")
       }))
   }
 

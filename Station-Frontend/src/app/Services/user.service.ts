@@ -15,13 +15,11 @@ export class UserService {
   }
 
   login(email: string, password: string): Observable<User> {
-
-    let headers = new HttpHeaders({Authorization: 'Bearer ' + localStorage.getItem("auth token")});
     let params = new HttpParams()
       .set("email", email)
       .set("password", password);
 
 
-    return this.httpClient.get<User>(`${this.baseURl}`, {headers : headers, params : params})
+    return this.httpClient.get<User>(`${this.baseURl}`, {params : params})
   }
 }
