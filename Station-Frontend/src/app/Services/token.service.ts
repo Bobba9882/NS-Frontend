@@ -12,9 +12,7 @@ export class TokenService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getToken(): Observable<Token>{
-    let username='bobba'
-    let password='247004844'
+  getToken(username: string, password:string): Observable<Token>{
 
 
     let headers = new HttpHeaders({Authorization: 'Basic '+ window.btoa(username+ ":"+ password)});

@@ -16,13 +16,13 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-     return this.createToken().pipe(
+     return this.createToken(email,password).pipe(
        tap( () => {this.loginUser(email, password).subscribe()})
      )
   }
 
-  createToken() {
-    return this.tokenService.getToken().pipe(
+  createToken(email: string, password: string) {
+    return this.tokenService.getToken(email,password).pipe(
       tap(response => {
         localStorage.setItem("auth token", response.text)
         console.log("token set")
