@@ -15,10 +15,9 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
-    return this.userService.loginUser(email, password).pipe(
+    return this.userService.getToken(email, password).pipe(
       tap(response => {
-        response.token = "TEMP_TOKEN";
-        localStorage.setItem("auth token", response.token)
+        localStorage.setItem("auth token",response.text)
         this._isLoggedIn$.next(true)
       })
     )
