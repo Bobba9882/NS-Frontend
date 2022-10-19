@@ -35,13 +35,13 @@
             </div>
           </div>
           <span class="text-danger" *ngIf="form.controls['password'].dirty && form.getError('required', 'password')">*Verplicht.</span>
-          <span class="text-danger" *ngIf="form.controls['password'].dirty && form.getError('minlength', 'password')">*Minimaal 8 tekens lang.</span>
+          <span class="text-danger" *ngIf="form.controls['password'].dirty && form.getError('minlength', 'password')">*Minimaal 6 tekens lang.</span>
         </div>
 
         <div class="form-group mt-2 col-6">
           <label>Herhaal wachtwoord</label>
           <div class="input-group">
-            <input class="form-control" id="repeatPassword" formControlName="repeatPassword" name="repeatPassword" [type]="show? 'text' : 'password'" (keyup)="onMatching()">
+            <input class="form-control" id="repeatPassword" formControlName="repeatPassword" name="repeatPassword" [type]="showRepeat? 'text' : 'password'" (keyup)="onMatching()">
             <div class="input-group-text">
               <i (click)="onViewRepeat()" [class]="showRepeat ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></i>
             </div>
