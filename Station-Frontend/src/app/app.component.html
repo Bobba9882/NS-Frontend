@@ -6,6 +6,12 @@
     <li class="nav-item">
       <a routerLink="disruptions" routerLinkActive="active" class="nav-link">Storingen & Werkzaamheden</a>
     </li>
+    <li class="nav-item">
+      <a routerLink="login" routerLinkActive="active" class="nav-link" *ngIf="!(authService.isLoggedIn$ | async); else loggedOut">Login</a>
+      <ng-template #loggedOut>
+        <a (click)="onLogout()" class="nav-link" style="cursor: pointer">Logout</a>
+      </ng-template>
+    </li>
   </ul>
 </nav>
 <div class="container">
