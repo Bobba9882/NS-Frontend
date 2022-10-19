@@ -22,4 +22,12 @@ export class UserService {
 
     return this.httpClient.get<User>(`${this.baseURl}`, {params : params})
   }
+
+  register(user : User){
+    console.log(user.firstName)
+    console.log(user.lastName)
+    console.log(user.password)
+    console.log(user.email)
+    return this.httpClient.post<User>(`${this.baseURl}`, user)
+  }
 }

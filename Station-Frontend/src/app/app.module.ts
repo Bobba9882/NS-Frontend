@@ -10,13 +10,15 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DatePipe, TitleCasePipe} from "@angular/common";
 import {LoginComponent} from './Components/login/login.component';
 import {AuthInterceptor} from "./Services/auth.interceptor";
+import { RegisterComponent } from './Components/register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DisruptionListComponent,
     TripHomeComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

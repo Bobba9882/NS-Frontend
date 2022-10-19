@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
     password: new FormControl(null, Validators.required),
   })
 
-  constructor(private authService : AuthService,private router : Router) { }
+  constructor(private authService : AuthService,public router : Router) { }
 
   ngOnInit(): void {
   }
@@ -31,6 +31,11 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: () => {this.router.navigate(['home'])}
       })
+  }
+
+
+  onRegister(){
+    this.router.navigate(['register'])
   }
 
 }
