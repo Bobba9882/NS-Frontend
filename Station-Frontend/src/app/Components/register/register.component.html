@@ -32,7 +32,7 @@
             <input class="form-control" id="password" formControlName="password" name="firstName"
                    [type]="show? 'text' : 'password'" [style]=" f['password'].dirty ? 'border-right: 0': null">
             <div class="input-group-text" style="background: transparent; border-left: 0" *ngIf="f['password'].dirty">
-              <i (click)="onView()" [class]="show ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></i>
+              <i (click)="onView()" [class]="show ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'" style="cursor: pointer"></i>
             </div>
           </div>
           <span class="text-danger" *ngIf="form.controls['password'].dirty && form.getError('required', 'password')">*Verplicht.</span>
@@ -47,7 +47,7 @@
                    [style]=" f['repeatPassword'].dirty ? 'border-right: 0': null">
             <div class="input-group-text" style="background: transparent; border-left: 0"
                  *ngIf="f['repeatPassword'].dirty">
-              <i (click)="onViewRepeat()" [class]="showRepeat ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></i>
+              <i (click)="onViewRepeat()" [class]="showRepeat ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'" style="cursor: pointer"></i>
             </div>
           </div>
           <span class="text-danger row" *ngIf="f['repeatPassword'].getError('required') && f['repeatPassword'].dirty">*Verplicht.</span>
