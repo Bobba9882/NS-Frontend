@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {TripsService} from "../Services/trips.service";
-import {Trip} from "../Models/trip";
+import {TripsService} from "../../Services/trips.service";
+import {Trip} from "../../Models/trip";
 import {DatePipe, TitleCasePipe} from "@angular/common";
+import {AuthService} from "../../Services/auth.service";
+import {UserService} from "../../Services/user.service";
 
 @Component({
   selector: 'app-trip-home',
@@ -10,7 +12,7 @@ import {DatePipe, TitleCasePipe} from "@angular/common";
 })
 export class TripHomeComponent implements OnInit {
 
-  constructor(private tripsService: TripsService, private titlecasePipe: TitleCasePipe, private datePipe: DatePipe) {
+  constructor(private tripsService: TripsService, private titlecasePipe: TitleCasePipe, private datePipe: DatePipe, public authService : AuthService) {
   }
 
   Trips: Trip[]
@@ -47,6 +49,7 @@ export class TripHomeComponent implements OnInit {
 
   onSelect(id: number) {
     this.selectedTrip = this.Trips[id]
+
   }
 
   onSwap() {
