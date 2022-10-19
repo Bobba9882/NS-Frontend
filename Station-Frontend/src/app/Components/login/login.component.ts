@@ -16,11 +16,16 @@ export class LoginComponent implements OnInit {
     password: new FormControl(null, Validators.required),
   })
 
+  show:boolean = false
+
   constructor(private authService : AuthService,public router : Router) { }
 
   ngOnInit(): void {
   }
 
+  onView(){
+    this.show = !this.show
+  }
 
 
   onSubmit() {

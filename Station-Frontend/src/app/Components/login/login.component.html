@@ -10,7 +10,13 @@
 
       <div class="form-group mt-2">
         <label>Wachtwoord</label>
-        <input class="form-control" id="password" formControlName="password" name="firstName" type="password">
+        <div class="input-group">
+          <input class="form-control" id="password" formControlName="password" name="firstName" [type]="show? 'text' : 'password'">
+          <div class="input-group-text">
+            <i (click)="onView()" [class]="show ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></i>
+          </div>
+        </div>
+
       </div>
 
       <button class="btn btn-success mt-2" type="submit">Inloggen</button>

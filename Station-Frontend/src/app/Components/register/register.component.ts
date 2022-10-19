@@ -16,6 +16,8 @@ export class RegisterComponent implements OnInit {
 
   form!: FormGroup
   matches:boolean = false
+  show:boolean = false
+  showRepeat:boolean = false
 
   constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder, private pipe: TitleCasePipe) {
     this.form = formBuilder.group({
@@ -28,6 +30,14 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  onView(){
+    this.show = !this.show
+  }
+
+  onViewRepeat(){
+    this.showRepeat = !this.showRepeat
   }
 
   get f() {
