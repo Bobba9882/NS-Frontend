@@ -29,8 +29,9 @@
         <div class="form-group mt-2 col-6">
           <label>Wachtwoord</label>
           <div class="input-group">
-            <input class="form-control" id="password" formControlName="password" name="firstName" [type]="show? 'text' : 'password'">
-            <div class="input-group-text">
+            <input class="form-control" id="password" formControlName="password" name="firstName"
+                   [type]="show? 'text' : 'password'" [style]=" f['password'].dirty ? 'border-right: 0': null">
+            <div class="input-group-text" style="background: transparent; border-left: 0" *ngIf="f['password'].dirty">
               <i (click)="onView()" [class]="show ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></i>
             </div>
           </div>
@@ -41,8 +42,11 @@
         <div class="form-group mt-2 col-6">
           <label>Herhaal wachtwoord</label>
           <div class="input-group">
-            <input class="form-control" id="repeatPassword" formControlName="repeatPassword" name="repeatPassword" [type]="showRepeat? 'text' : 'password'" (keyup)="onMatching()">
-            <div class="input-group-text">
+            <input class="form-control" id="repeatPassword" formControlName="repeatPassword" name="repeatPassword"
+                   [type]="showRepeat? 'text' : 'password'" (keyup)="onMatching()"
+                   [style]=" f['repeatPassword'].dirty ? 'border-right: 0': null">
+            <div class="input-group-text" style="background: transparent; border-left: 0"
+                 *ngIf="f['repeatPassword'].dirty">
               <i (click)="onViewRepeat()" [class]="showRepeat ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></i>
             </div>
           </div>
