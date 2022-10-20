@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     let email = String(this.form.get('email')?.value)
     let password = String(this.form.get('password')?.value)
     this.authService
-      .login(email, password)
+      .createToken(email, password)
       .subscribe({
         next: () => {this.router.navigate(['home'])}
       })

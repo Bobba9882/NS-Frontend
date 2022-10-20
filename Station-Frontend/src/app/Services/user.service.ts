@@ -14,15 +14,6 @@ export class UserService {
   constructor(private httpClient: HttpClient) {
   }
 
-  login(email: string, password: string): Observable<User> {
-    let params = new HttpParams()
-      .set("email", email)
-      .set("password", password);
-
-
-    return this.httpClient.get<User>(`${this.baseURl}`, {params : params})
-  }
-
   register(user : User){
     console.log(user.firstName)
     console.log(user.lastName)
