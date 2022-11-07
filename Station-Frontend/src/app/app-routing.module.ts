@@ -4,6 +4,7 @@ import {DisruptionListComponent} from "./Components/disruption-list/disruption-l
 import {TripHomeComponent} from "./Components/trip-home/trip-home.component";
 import {LoginComponent} from "./Components/login/login.component";
 import {RegisterComponent} from "./Components/register/register.component";
+import {ProfileHomeComponent} from "./Components/profile-home/profile-home.component";
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   {path: 'home', component: TripHomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'profile', component: ProfileHomeComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'}
 ];
 

@@ -1,0 +1,16 @@
+<div class="col-auto p-4 mt-xxl-5 mb-xxl-5" style="border-radius: 5px; background-color: white">
+  <div class="row">
+    <div class="col-auto">
+      <h1>Welkom {{authService.userCredentials.firstName}} {{authService.userCredentials.lastName}}</h1>
+    </div>
+  </div>
+  <hr>
+
+
+
+  <div class="row">
+    <div class="col-1">
+      <button type="button" class="btn btn-danger" (click)="logOut()">Uitloggen</button>
+    </div>
+  </div>
+</div>

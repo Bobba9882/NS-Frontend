@@ -11,6 +11,7 @@ import {DatePipe, TitleCasePipe} from "@angular/common";
 import {LoginComponent} from './Components/login/login.component';
 import {AuthInterceptor} from "./Services/auth.interceptor";
 import { RegisterComponent } from './Components/register/register.component';
+import { ProfileHomeComponent } from './Components/profile-home/profile-home.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { RegisterComponent } from './Components/register/register.component';
     DisruptionListComponent,
     TripHomeComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProfileHomeComponent
   ],
   imports: [
     BrowserModule,

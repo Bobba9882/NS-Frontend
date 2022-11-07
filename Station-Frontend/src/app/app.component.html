@@ -7,9 +7,9 @@
       <a routerLink="disruptions" routerLinkActive="active" class="nav-link">Storingen & Werkzaamheden</a>
     </li>
     <li class="nav-item">
-      <a routerLink="login" routerLinkActive="active" class="nav-link" *ngIf="!(authService.isLoggedIn$ | async); else loggedOut">Login</a>
+      <a routerLink="login" routerLinkActive="active" class="nav-link" *ngIf="!(authService.isLoggedIn$ | async); else loggedOut">Inloggen</a>
       <ng-template #loggedOut>
-        <a (click)="onLogout()" class="nav-link" style="cursor: pointer">Logout</a>
+        <a routerLink="profile" routerLinkActive="active" class="nav-link">Mijn profiel</a>
       </ng-template>
     </li>
   </ul>

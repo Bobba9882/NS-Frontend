@@ -15,10 +15,6 @@ export class UserService {
   }
 
   register(user : User){
-    console.log(user.firstName)
-    console.log(user.lastName)
-    console.log(user.password)
-    console.log(user.email)
     return this.httpClient.post<User>(`${this.baseURl}`, user)
   }
 }
