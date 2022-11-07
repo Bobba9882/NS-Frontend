@@ -23,7 +23,6 @@ export class AuthInterceptor implements HttpInterceptor {
       const time = new Date(0)
       time.setUTCSeconds(<number>expiration)
       if (time >= new Date()) {
-        console.log("valid")
         const cloned = request.clone({
           headers: request.headers.set("Authorization", "Bearer " + token)
         })

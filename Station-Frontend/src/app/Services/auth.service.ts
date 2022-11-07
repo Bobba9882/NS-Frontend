@@ -11,7 +11,7 @@ import jwtDecode from "jwt-decode";
 export class AuthService {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false)
   public isLoggedIn$ = this._isLoggedIn$.asObservable()
-  public userCredentials = new User()
+  public loggedInUser = new User()
 
   constructor(private tokenService: TokenService, private userService: UserService) {
     const user = localStorage.getItem("auth token")
@@ -33,9 +33,9 @@ export class AuthService {
 
   decodeToken(){
     const decodedInfo =jwtDecode<any>(<string>localStorage.getItem("auth token"))
-    this.userCredentials.id = decodedInfo.userId
-    this.userCredentials.firstName = decodedInfo.firstName
-    this.userCredentials.lastName = decodedInfo.lastName
-    this.userCredentials.email = decodedInfo.email
+    this.loggedInUser.id = decodedInfo.userId
+    this.loggedInUser.firstName = decodedInfo.firstName
+    this.loggedInUser.lastName = decodedInfo.lastName
+    this.loggedInUser.email = decodedInfo.email
   }
 }

@@ -14,7 +14,7 @@ import jwtDecode from "jwt-decode";
 })
 export class TripHomeComponent implements OnInit {
 
-  constructor(private tripsService: TripsService, private titlecasePipe: TitleCasePipe, private datePipe: DatePipe, public authService : AuthService) {
+  constructor(private tripsService: TripsService, private titlecasePipe: TitleCasePipe, private datePipe: DatePipe, public authService: AuthService) {
   }
 
   Trips: Trip[]
@@ -29,28 +29,29 @@ export class TripHomeComponent implements OnInit {
   toStation: string
   tripTime: string
   tripDate: string
-  isArrival : boolean = false
+  isArrival: boolean = false
 
   onSubmit() {
-   this.toTitlecase()
+    this.toTitlecase()
     let date: string = new Date(this.tripDate + " " + this.tripTime).toISOString()
     this.tripsService.getTrips(this.fromStation, this.toStation, date, this.isArrival).subscribe({
       next: value => this.Trips = value.trips,
-      complete: () => this.selectedTrip = this.Trips[2]
+      complete: () => this.onSelect(2)
     })
   }
 
-  onArrival(bool : boolean){
+  onArrival(bool: boolean) {
     this.isArrival = bool
   }
 
-  toTitlecase(){
+  toTitlecase() {
     this.fromStation = this.titlecasePipe.transform(this.fromStation)
     this.toStation = this.titlecasePipe.transform(this.toStation)
   }
 
   onSelect(id: number) {
     this.selectedTrip = this.Trips[id]
+    this.selectedTrip.id = id
 
   }
 
@@ -67,4 +68,13 @@ export class TripHomeComponent implements OnInit {
     this.tripTime = <string>this.datePipe.transform(today, "HH:mm")
   }
 
+  onFavorite() {
+    this.selectedTrip.isFavorite = !this.selectedTrip.isFavorite
+    if (this.selectedTrip.isFavorite){
+      this.tripsService.saveTrip(this.selectedTrip.ctxRecon)
+    }else {
+      this.tripsService.deleteTrip(this.selectedTrip.ctxRecon)
+    }
+
+  }
 }

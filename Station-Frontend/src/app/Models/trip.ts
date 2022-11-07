@@ -3,6 +3,8 @@ export interface Trips {
 }
 
 export interface Trip{
+  isFavorite: boolean
+  id: number
   ctxRecon : string
   plannedDurationInMinutes : string
   legs : TripInformation[]

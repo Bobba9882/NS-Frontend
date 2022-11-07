@@ -23,4 +23,14 @@ export class TripsService {
 
     return this.httpClient.get<Trips>(`${this.baseURl}`, {params : params})
   }
+
+  saveTrip(code:string){
+    //code for saving trip
+    console.log("this trip has been saved: " + code)
+  }
+
+  deleteTrip(code:string){
+    //code for saving trip
+    console.log("this trip has been deleted: " + code)
+  }
 }
