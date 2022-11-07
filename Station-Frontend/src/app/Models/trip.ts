@@ -3,6 +3,7 @@ export interface Trips {
 }
 
 export interface Trip{
+  ctxRecon : string
   plannedDurationInMinutes : string
   legs : TripInformation[]
 }
