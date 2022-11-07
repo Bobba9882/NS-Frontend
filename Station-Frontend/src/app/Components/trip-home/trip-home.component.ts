@@ -4,6 +4,8 @@ import {Trip} from "../../Models/trip";
 import {DatePipe, TitleCasePipe} from "@angular/common";
 import {AuthService} from "../../Services/auth.service";
 import {UserService} from "../../Services/user.service";
+import {User} from "../../Models/user";
+import jwtDecode from "jwt-decode";
 
 @Component({
   selector: 'app-trip-home',
