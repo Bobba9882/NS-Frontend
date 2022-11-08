@@ -5,6 +5,7 @@ export interface Trips {
 export interface Trip{
   isFavorite: boolean
   id: number
+  user:number
   ctxRecon : string
   plannedDurationInMinutes : string
   legs : TripInformation[]

@@ -4,6 +4,7 @@ import {BehaviorSubject, tap} from "rxjs";
 import {UserService} from "./user.service";
 import {User} from "../Models/user";
 import jwtDecode from "jwt-decode";
+import {TripsService} from "./trips.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,11 @@ export class AuthService {
   public isLoggedIn$ = this._isLoggedIn$.asObservable()
   public loggedInUser = new User()
 
-  constructor(private tokenService: TokenService, private userService: UserService) {
+  constructor(private tokenService: TokenService, private userService: UserService, private tripService : TripsService) {
     const user = localStorage.getItem("auth token")
     if (user){
       this.decodeToken()
+      this.getUserData()
     }
     this._isLoggedIn$.next(!!user)
   }
@@ -27,6 +29,7 @@ export class AuthService {
       tap(response => {
         localStorage.setItem("auth token", response.text)
         this.decodeToken()
+        this.getUserData()
         this._isLoggedIn$.next(true)
       }))
   }
@@ -37,5 +40,11 @@ export class AuthService {
     this.loggedInUser.firstName = decodedInfo.firstName
     this.loggedInUser.lastName = decodedInfo.lastName
     this.loggedInUser.email = decodedInfo.email
+  }
+
+  getUserData(){
+    this.tripService.getTripsByUserId(this.loggedInUser.id).subscribe({
+      next: value => {this.loggedInUser.savedTrips = value}
+    })
   }
 }

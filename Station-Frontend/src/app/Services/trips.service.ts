@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Trips} from "../Models/trip";
+import {Trip, Trips} from "../Models/trip";
 import {Disruption} from "../Models/disruption";
 
 @Injectable({
@@ -9,28 +9,39 @@ import {Disruption} from "../Models/disruption";
 })
 export class TripsService {
 
-  private baseURl: string = "http://localhost:8080/api/v1/trip"
+  private nsURl: string = "http://localhost:8080/api/v1/trip"
+  private userURl: string = "http://localhost:9090/api/v1/trip"
 
   constructor(private httpClient: HttpClient) {
   }
 
-  getTrips(fromStation: string, toStation: string, date : string, isArrival :boolean): Observable<Trips> {
+  getTrips(fromStation: string, toStation: string, date: string, isArrival: boolean): Observable<Trips> {
     let params = new HttpParams()
       .set("fromStation", fromStation)
       .set("toStation", toStation)
-      .set("date",date)
+      .set("date", date)
       .set("isArrival", isArrival)
 
-    return this.httpClient.get<Trips>(`${this.baseURl}`, {params : params})
+    return this.httpClient.get<Trips>(`${this.nsURl}`, {params: params})
   }
 
-  saveTrip(code:string){
+
+  saveTrip(data:string, id:number) {
     //code for saving trip
-    console.log("this trip has been saved: " + code)
+    let params = new HttpParams()
+      .set("data", data)
+      .set("id", id)
+    return this.httpClient.post(`${this.userURl}`, {},{params : params})
   }
 
-  deleteTrip(code:string){
+  deleteTrip(id: number) {
     //code for saving trip
-    console.log("this trip has been deleted: " + code)
+    console.log("this trip has been deleted: " + id)
+  }
+
+  getTripsByUserId(id: number):Observable<Trip[]>{
+    let params = new HttpParams()
+      .set("id", id)
+    return this.httpClient.get<Trip[]>(`${this.userURl}`, {params:params})
   }
 }

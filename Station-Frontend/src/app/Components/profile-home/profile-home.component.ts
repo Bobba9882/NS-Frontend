@@ -12,8 +12,8 @@ export class ProfileHomeComponent implements OnInit {
   constructor(private router : Router, public authService : AuthService) { }
 
   ngOnInit(): void {
+    console.log(this.authService.loggedInUser)
   }
-
 
   logOut(){
     localStorage.clear()

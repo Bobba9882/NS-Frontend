@@ -71,9 +71,9 @@ export class TripHomeComponent implements OnInit {
   onFavorite() {
     this.selectedTrip.isFavorite = !this.selectedTrip.isFavorite
     if (this.selectedTrip.isFavorite){
-      this.tripsService.saveTrip(this.selectedTrip.ctxRecon)
+      this.tripsService.saveTrip(this.selectedTrip.ctxRecon, this.authService.loggedInUser.id).subscribe()
     }else {
-      this.tripsService.deleteTrip(this.selectedTrip.ctxRecon)
+      this.tripsService.deleteTrip(1)
     }
 
   }
