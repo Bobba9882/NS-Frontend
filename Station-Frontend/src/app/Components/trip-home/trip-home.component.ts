@@ -17,7 +17,9 @@ export class TripHomeComponent implements OnInit {
   constructor(private tripsService: TripsService, private titlecasePipe: TitleCasePipe, private datePipe: DatePipe, public authService: AuthService) {
   }
 
-  Trips: Trip[]
+  user:User = UserService.loggedInUser
+
+  trips: Trip[]
 
   selectedTrip: Trip
 
@@ -35,8 +37,20 @@ export class TripHomeComponent implements OnInit {
     this.toTitlecase()
     let date: string = new Date(this.tripDate + " " + this.tripTime).toISOString()
     this.tripsService.getTrips(this.fromStation, this.toStation, date, this.isArrival).subscribe({
-      next: value => this.Trips = value,
-      complete: () => this.onSelect(2)
+      next: value => {this.trips = value},
+      complete: () => {this.onSelect(2); this.checkIfFavorite()}
+    })
+  }
+
+  checkIfFavorite(){
+    let savedTrips:string[] = []
+    UserService.loggedInUser.savedTrips.forEach(value => {savedTrips.push(value.ctxRecon)})
+    const values = this.trips.filter(value => savedTrips.includes(value.ctxRecon))
+
+    this.trips.forEach(value => {
+      if (values.includes(value)){
+        value.isFavorite = true
+      }
     })
   }
 
@@ -50,7 +64,7 @@ export class TripHomeComponent implements OnInit {
   }
 
   onSelect(id: number) {
-    this.selectedTrip = this.Trips[id]
+    this.selectedTrip = this.trips[id]
     this.selectedTrip.id = id
 
   }
@@ -71,7 +85,7 @@ export class TripHomeComponent implements OnInit {
   onFavorite() {
     this.selectedTrip.isFavorite = !this.selectedTrip.isFavorite
     if (this.selectedTrip.isFavorite){
-      this.tripsService.saveTrip(this.selectedTrip.ctxRecon, this.authService.loggedInUser.id).subscribe()
+      this.tripsService.saveTrip(this.selectedTrip.ctxRecon, UserService.loggedInUser.id).subscribe()
     }else {
       this.tripsService.deleteTrip(1)
     }

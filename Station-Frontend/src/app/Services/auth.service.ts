@@ -12,14 +12,9 @@ import {TripsService} from "./trips.service";
 export class AuthService {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false)
   public isLoggedIn$ = this._isLoggedIn$.asObservable()
-  public loggedInUser = new User()
 
-  constructor(private tokenService: TokenService, private userService: UserService, private tripService : TripsService) {
+  constructor(private tokenService: TokenService, private userService: UserService) {
     const user = localStorage.getItem("auth token")
-    if (user){
-      this.decodeToken()
-      this.getUserData()
-    }
     this._isLoggedIn$.next(!!user)
   }
 
@@ -28,23 +23,9 @@ export class AuthService {
     return this.tokenService.getToken(email,password).pipe(
       tap(response => {
         localStorage.setItem("auth token", response.text)
-        this.decodeToken()
-        this.getUserData()
+        this.userService.decodeUserToken()
+        this.userService.getUserData()
         this._isLoggedIn$.next(true)
       }))
-  }
-
-  decodeToken(){
-    const decodedInfo =jwtDecode<any>(<string>localStorage.getItem("auth token"))
-    this.loggedInUser.id = decodedInfo.userId
-    this.loggedInUser.firstName = decodedInfo.firstName
-    this.loggedInUser.lastName = decodedInfo.lastName
-    this.loggedInUser.email = decodedInfo.email
-  }
-
-  getUserData(){
-    this.tripService.getTripsByUserId(this.loggedInUser.id).subscribe({
-      next: value => {this.loggedInUser.savedTrips = value}
-    })
   }
 }

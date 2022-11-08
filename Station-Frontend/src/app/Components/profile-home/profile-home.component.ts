@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthService} from "../../Services/auth.service";
+import {UserService} from "../../Services/user.service";
+import {User} from "../../Models/user";
 
 @Component({
   selector: 'app-profile-home',
@@ -9,10 +11,12 @@ import {AuthService} from "../../Services/auth.service";
 })
 export class ProfileHomeComponent implements OnInit {
 
-  constructor(private router : Router, public authService : AuthService) { }
+  constructor(private router : Router) { }
+
+  user: User = UserService.loggedInUser
 
   ngOnInit(): void {
-    console.log(this.authService.loggedInUser)
+    console.log(UserService.loggedInUser)
   }
 
   logOut(){

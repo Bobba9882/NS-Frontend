@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-auto">
         <h1>Plan je reis</h1>
-        <h2 *ngIf="authService.isLoggedIn$ | async">Welkom {{authService.loggedInUser.firstName}} {{authService.loggedInUser.lastName}}.</h2>
+        <h2 *ngIf="authService.isLoggedIn$ | async">Welkom {{user.firstName}} {{user.lastName}}.</h2>
       </div>
     </div>
 
@@ -64,10 +64,10 @@
   </div>
 
 
-  <div class="row pt-4" *ngIf="Trips">
+  <div class="row pt-4" *ngIf="trips">
     <!--    shows trips on side-->
     <ul class="col-4 list-group">
-      <div class="list-group-item list-group-item-action p-3" *ngFor="let trip of Trips; let i = index"
+      <div class="list-group-item list-group-item-action p-3" *ngFor="let trip of trips; let i = index"
            [attr.data-index]="i" style="list-style: none" (click)="onSelect(i)">
         <div>
           {{ trip.legs[0].origin.plannedDateTime | date : "HH:mm"}}

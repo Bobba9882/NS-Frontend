@@ -1,7 +1,7 @@
 <div class="col-auto p-4 mt-xxl-5 mb-xxl-5" style="border-radius: 5px; background-color: white">
   <div class="row">
     <div class="col-auto">
-      <h1>Welkom {{authService.loggedInUser.firstName}} {{authService.loggedInUser.lastName}}</h1>
+      <h1>Welkom {{user.firstName}} {{user.lastName}}</h1>
     </div>
   </div>
   <hr>
@@ -15,8 +15,8 @@
   </div>
 
   <div class="row">
-    <div class="row" *ngFor="let trip of authService.loggedInUser.savedTrips">
-      <h1>{{trip.ctxRecon}}</h1>
+    <div class="row" *ngFor="let trip of user.savedTrips">
+      <h1>Van {{trip.legs[0].origin.name}} naar {{trip.legs[trip.legs.length - 1].destination.name}}</h1>
     </div>
   </div>
 </div>
