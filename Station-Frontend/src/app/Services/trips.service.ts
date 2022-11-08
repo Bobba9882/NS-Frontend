@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Trip, Trips} from "../Models/trip";
+import {Trip} from "../Models/trip";
 import {Disruption} from "../Models/disruption";
 
 @Injectable({
@@ -15,14 +15,14 @@ export class TripsService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getTrips(fromStation: string, toStation: string, date: string, isArrival: boolean): Observable<Trips> {
+  getTrips(fromStation: string, toStation: string, date: string, isArrival: boolean): Observable<Trip[]> {
     let params = new HttpParams()
       .set("fromStation", fromStation)
       .set("toStation", toStation)
       .set("date", date)
       .set("isArrival", isArrival)
 
-    return this.httpClient.get<Trips>(`${this.nsURl}`, {params: params})
+    return this.httpClient.get<Trip[]>(`${this.nsURl}`, {params: params})
   }
 
 

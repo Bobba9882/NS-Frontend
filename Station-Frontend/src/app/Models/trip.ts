@@ -1,7 +1,3 @@
-export interface Trips {
-  trips : Trip[];
-}
-
 export interface Trip{
   isFavorite: boolean
   id: number

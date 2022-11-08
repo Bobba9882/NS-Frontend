@@ -35,7 +35,7 @@ export class TripHomeComponent implements OnInit {
     this.toTitlecase()
     let date: string = new Date(this.tripDate + " " + this.tripTime).toISOString()
     this.tripsService.getTrips(this.fromStation, this.toStation, date, this.isArrival).subscribe({
-      next: value => this.Trips = value.trips,
+      next: value => this.Trips = value,
       complete: () => this.onSelect(2)
     })
   }
