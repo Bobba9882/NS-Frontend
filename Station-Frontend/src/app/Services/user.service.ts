@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../Models/user";
 import jwtDecode from "jwt-decode";
 import {TripsService} from "./trips.service";
+import {Trip} from "../Models/trip";
 
 @Injectable({
   providedIn: 'root'
@@ -10,25 +11,24 @@ import {TripsService} from "./trips.service";
 export class UserService {
 
   private baseURl: string = "http://localhost:9090/api/v1/user"
-  public static loggedInUser = new User()
 
-  constructor(private httpClient: HttpClient, private tripService : TripsService) {
+  constructor(private httpClient: HttpClient, private tripService: TripsService) {
   }
 
-  decodeUserToken() {
-    const decodedInfo = jwtDecode<any>(<string>localStorage.getItem("auth token"))
-    UserService.loggedInUser.id = decodedInfo.userId
-    UserService.loggedInUser.firstName = decodedInfo.firstName
-    UserService.loggedInUser.lastName = decodedInfo.lastName
-    UserService.loggedInUser.email = decodedInfo.email
+  public decodeUserToken(token: string) {
+    const decodedInfo = jwtDecode<any>(token)
+
+    let user = new User()
+    user.email = decodedInfo.email
+    user.firstName = decodedInfo.firstName
+    user.lastName = decodedInfo.lastName
+    user.id = decodedInfo.userId
+    localStorage.setItem("user info", JSON.stringify(user))
   }
 
   getUserData() {
-    this.tripService.getTripsByUserId(UserService.loggedInUser.id).subscribe({
-      next: value => {
-        UserService.loggedInUser.savedTrips = value
-      }
-    })
+    let user: User = JSON.parse(String(localStorage.getItem("user info"))) as User
+    return this.tripService.getTripsByUserId(user.id)
   }
 
   register(user: User) {

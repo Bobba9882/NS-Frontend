@@ -20,8 +20,7 @@ export class AuthService {
     return this.tokenService.getToken(email,password).pipe(
       tap(response => {
         localStorage.setItem("auth token", response.text)
-        this.userService.decodeUserToken()
-        this.userService.getUserData()
+        this.userService.decodeUserToken(response.text)
         this._isLoggedIn$.next(true)
       }))
   }

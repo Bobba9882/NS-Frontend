@@ -13,10 +13,10 @@ import {User} from "../../Models/user";
 })
 export class TripHomeComponent implements OnInit {
 
-  constructor(private tripsService: TripsService, private titlecasePipe: TitleCasePipe, private datePipe: DatePipe, public authService: AuthService) {
+  constructor(private tripsService: TripsService, private titlecasePipe: TitleCasePipe, private datePipe: DatePipe, public authService: AuthService, private userService: UserService) {
   }
 
-  user:User = UserService.loggedInUser
+  user: User = JSON.parse(String(localStorage.getItem("user info"))) as User
 
   foundTrips: Trip[]
 
@@ -36,18 +36,32 @@ export class TripHomeComponent implements OnInit {
     this.toTitleCase()
     let date: string = new Date(this.tripDate + " " + this.tripTime).toISOString()
     this.tripsService.getTrips(this.fromStation, this.toStation, date, this.isArrival).subscribe({
-      next: value => {this.foundTrips = value},
-      complete: () => {this.onSelectingTrip(2); this.checkIfFavorite()}
+      next: value => {
+        this.foundTrips = value
+      },
+      complete: () => {
+        this.onSelectingTrip(2);
+        this.userService.getUserData().subscribe({
+          next: value => {
+            this.user.savedTrips = value
+          },
+          complete: () => {
+            this.checkIfFavorite()
+          }
+        })
+      }
     })
   }
 
-   checkIfFavorite(){
-    let savedTrips:string[] = []
-    UserService.loggedInUser.savedTrips.forEach(value => {savedTrips.push(value.ctxRecon)})
+  checkIfFavorite() {
+    let savedTrips: string[] = []
+    this.user.savedTrips.forEach(value => {
+      savedTrips.push(value.ctxRecon)
+    })
     const values = this.foundTrips.filter(value => savedTrips.includes(value.ctxRecon))
 
     this.foundTrips.forEach(value => {
-      if (values.includes(value)){
+      if (values.includes(value)) {
         value.isFavorite = true
       }
     })
@@ -83,9 +97,9 @@ export class TripHomeComponent implements OnInit {
 
   onFavorite() {
     this.selectedTrip.isFavorite = !this.selectedTrip.isFavorite
-    if (this.selectedTrip.isFavorite){
-      this.tripsService.saveTrip(this.selectedTrip.ctxRecon, UserService.loggedInUser.id).subscribe()
-    }else {
+    if (this.selectedTrip.isFavorite) {
+      this.tripsService.saveTrip(this.selectedTrip.ctxRecon, this.user.id).subscribe()
+    } else {
       this.tripsService.deleteTrip(1)
     }
 
