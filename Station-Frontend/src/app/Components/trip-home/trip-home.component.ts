@@ -5,7 +5,6 @@ import {DatePipe, TitleCasePipe} from "@angular/common";
 import {AuthService} from "../../Services/auth.service";
 import {UserService} from "../../Services/user.service";
 import {User} from "../../Models/user";
-import jwtDecode from "jwt-decode";
 
 @Component({
   selector: 'app-trip-home',
@@ -19,7 +18,7 @@ export class TripHomeComponent implements OnInit {
 
   user:User = UserService.loggedInUser
 
-  trips: Trip[]
+  foundTrips: Trip[]
 
   selectedTrip: Trip
 
@@ -34,43 +33,43 @@ export class TripHomeComponent implements OnInit {
   isArrival: boolean = false
 
   onSubmit() {
-    this.toTitlecase()
+    this.toTitleCase()
     let date: string = new Date(this.tripDate + " " + this.tripTime).toISOString()
     this.tripsService.getTrips(this.fromStation, this.toStation, date, this.isArrival).subscribe({
-      next: value => {this.trips = value},
-      complete: () => {this.onSelect(2); this.checkIfFavorite()}
+      next: value => {this.foundTrips = value},
+      complete: () => {this.onSelectingTrip(2); this.checkIfFavorite()}
     })
   }
 
-  checkIfFavorite(){
+   checkIfFavorite(){
     let savedTrips:string[] = []
     UserService.loggedInUser.savedTrips.forEach(value => {savedTrips.push(value.ctxRecon)})
-    const values = this.trips.filter(value => savedTrips.includes(value.ctxRecon))
+    const values = this.foundTrips.filter(value => savedTrips.includes(value.ctxRecon))
 
-    this.trips.forEach(value => {
+    this.foundTrips.forEach(value => {
       if (values.includes(value)){
         value.isFavorite = true
       }
     })
   }
 
-  onArrival(bool: boolean) {
+  changeIsArrival(bool: boolean) {
     this.isArrival = bool
   }
 
-  toTitlecase() {
+  toTitleCase() {
     this.fromStation = this.titlecasePipe.transform(this.fromStation)
     this.toStation = this.titlecasePipe.transform(this.toStation)
   }
 
-  onSelect(id: number) {
-    this.selectedTrip = this.trips[id]
+  onSelectingTrip(id: number) {
+    this.selectedTrip = this.foundTrips[id]
     this.selectedTrip.id = id
 
   }
 
   onSwap() {
-    this.toTitlecase()
+    this.toTitleCase()
     let temp = this.fromStation
     this.fromStation = this.toStation
     this.toStation = temp

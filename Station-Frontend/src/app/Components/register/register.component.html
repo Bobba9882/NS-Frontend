@@ -1,19 +1,19 @@
 <div class="row justify-content-center">
   <div class="col-6 p-4 mt-xxl-5 mb-xxl-5" style="border-radius: 5px; background-color: white">
     <h2>Registreren</h2>
-    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
 
       <div class="row">
         <div class="form-group col-6">
           <label>Voornaam</label>
           <input class="form-control" id="firstName" formControlName="firstName" name="firstName">
-          <span class="text-danger" *ngIf="form.controls['firstName'].dirty && form.getError('required', 'firstName')">*Verplicht.</span>
+          <span class="text-danger" *ngIf="registerForm.controls['firstName'].dirty && registerForm.getError('required', 'firstName')">*Verplicht.</span>
         </div>
 
         <div class="form-group col-6">
           <label>Achternaam</label>
           <input class="form-control" id="lastName" formControlName="lastName" name="lastName">
-          <span class="text-danger" *ngIf="form.controls['lastName'].dirty && form.getError('required', 'lastName')">*Verplicht.</span>
+          <span class="text-danger" *ngIf="registerForm.controls['lastName'].dirty && registerForm.getError('required', 'lastName')">*Verplicht.</span>
         </div>
       </div>
 
@@ -21,7 +21,7 @@
         <div class="form-group mt-2">
           <label>Email</label>
           <input class="form-control" id="email" formControlName="email" name="email" type="email">
-          <span class="text-danger" *ngIf="form.controls['email'].dirty && form.getError('required', 'email')">*Verplicht.</span>
+          <span class="text-danger" *ngIf="registerForm.controls['email'].dirty && registerForm.getError('required', 'email')">*Verplicht.</span>
         </div>
       </div>
 
@@ -30,34 +30,34 @@
           <label>Wachtwoord</label>
           <div class="input-group">
             <input class="form-control" id="password" formControlName="password" name="firstName"
-                   [type]="show? 'text' : 'password'" [style]=" f['password'].dirty ? 'border-right: 0': null">
-            <div class="input-group-text" style="background: transparent; border-left: 0" *ngIf="f['password'].dirty">
-              <i (click)="onView()" [class]="show ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'" style="cursor: pointer"></i>
+                   [type]="showPassword? 'text' : 'password'" [style]=" formControls['password'].dirty ? 'border-right: 0': null">
+            <div class="input-group-text" style="background: transparent; border-left: 0" *ngIf="formControls['password'].dirty">
+              <i (click)="onShowPasswordClick()" [class]="showPassword ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'" style="cursor: pointer"></i>
             </div>
           </div>
-          <span class="text-danger" *ngIf="form.controls['password'].dirty && form.getError('required', 'password')">*Verplicht.</span>
-          <span class="text-danger" *ngIf="form.controls['password'].dirty && form.getError('minlength', 'password')">*Minimaal 6 tekens lang.</span>
+          <span class="text-danger" *ngIf="registerForm.controls['password'].dirty && registerForm.getError('required', 'password')">*Verplicht.</span>
+          <span class="text-danger" *ngIf="registerForm.controls['password'].dirty && registerForm.getError('minlength', 'password')">*Minimaal 6 tekens lang.</span>
         </div>
 
         <div class="form-group mt-2 col-6">
           <label>Herhaal wachtwoord</label>
           <div class="input-group">
             <input class="form-control" id="repeatPassword" formControlName="repeatPassword" name="repeatPassword"
-                   [type]="showRepeat? 'text' : 'password'" (keyup)="onMatching()"
-                   [style]=" f['repeatPassword'].dirty ? 'border-right: 0': null">
+                   [type]="showRepeatPassword? 'text' : 'password'" (keyup)="checkPasswordMatching()"
+                   [style]=" formControls['repeatPassword'].dirty ? 'border-right: 0': null">
             <div class="input-group-text" style="background: transparent; border-left: 0"
-                 *ngIf="f['repeatPassword'].dirty">
-              <i (click)="onViewRepeat()" [class]="showRepeat ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'" style="cursor: pointer"></i>
+                 *ngIf="formControls['repeatPassword'].dirty">
+              <i (click)="onShowRepeatPasswordClick()" [class]="showRepeatPassword ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'" style="cursor: pointer"></i>
             </div>
           </div>
-          <span class="text-danger row" *ngIf="f['repeatPassword'].getError('required') && f['repeatPassword'].dirty">*Verplicht.</span>
-          <span class="text-danger row" *ngIf="matches === false && f['repeatPassword'].dirty">*De wachtwoorden komen niet overeen.</span>
+          <span class="text-danger row" *ngIf="formControls['repeatPassword'].getError('required') && formControls['repeatPassword'].dirty">*Verplicht.</span>
+          <span class="text-danger row" *ngIf="passwordMatches === false && formControls['repeatPassword'].dirty">*De wachtwoorden komen niet overeen.</span>
         </div>
       </div>
 
       <div class="row">
         <div class="col-3">
-          <button class="btn btn-success mt-2" type="submit" [disabled]="form.invalid || !matches">Registreren</button>
+          <button class="btn btn-success mt-2" type="submit" [disabled]="registerForm.invalid || !passwordMatches">Registreren</button>
         </div>
       </div>
 

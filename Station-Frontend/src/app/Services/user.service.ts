@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {BehaviorSubject, Observable} from "rxjs";
-import {Token} from "../Models/token";
+import {HttpClient} from "@angular/common/http";
 import {User} from "../Models/user";
 import jwtDecode from "jwt-decode";
 import {TripsService} from "./trips.service";

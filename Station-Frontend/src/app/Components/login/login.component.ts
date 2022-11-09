@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../Services/auth.service";
 import {Router} from "@angular/router";
-import {UserService} from "../../Services/user.service";
 
 @Component({
   selector: 'app-login',
@@ -16,19 +15,19 @@ export class LoginComponent implements OnInit {
     password: new FormControl(null, Validators.required),
   })
 
-  show:boolean = false
+  showPassword:boolean = false
 
   constructor(private authService : AuthService,public router : Router) { }
 
   ngOnInit(): void {
   }
 
-  onView(){
-    this.show = !this.show
+  onShowPasswordClick(){
+    this.showPassword = !this.showPassword
   }
 
 
-  onSubmit() {
+  onSubmitForm() {
     let email = String(this.form.get('email')?.value)
     let password = String(this.form.get('password')?.value)
     this.authService
@@ -39,7 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  onRegister(){
+  onRegisterClick(){
     this.router.navigate(['register'])
   }
 

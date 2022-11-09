@@ -2,9 +2,6 @@ import {Injectable} from '@angular/core';
 import {TokenService} from "./token.service";
 import {BehaviorSubject, tap} from "rxjs";
 import {UserService} from "./user.service";
-import {User} from "../Models/user";
-import jwtDecode from "jwt-decode";
-import {TripsService} from "./trips.service";
 
 @Injectable({
   providedIn: 'root'

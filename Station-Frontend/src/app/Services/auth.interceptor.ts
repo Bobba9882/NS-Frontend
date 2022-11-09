@@ -15,16 +15,17 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem("auth token")
+    const authToken = localStorage.getItem("auth token")
 
-    if (token) {
+    if (authToken) {
 
-      const expiration = jwtDecode<JwtPayload>(token).exp
-      const time = new Date(0)
-      time.setUTCSeconds(<number>expiration)
-      if (time >= new Date()) {
+      const expiration = jwtDecode<JwtPayload>(authToken).exp
+      const expirationDate = new Date(0)
+      expirationDate.setUTCSeconds(<number>expiration)
+
+      if (expirationDate >= new Date()) {
         const cloned = request.clone({
-          headers: request.headers.set("Authorization", "Bearer " + token)
+          headers: request.headers.set("Authorization", "Bearer " + authToken)
         })
         return next.handle(cloned)
       } else {

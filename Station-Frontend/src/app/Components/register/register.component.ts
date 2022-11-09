@@ -2,9 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../Services/user.service";
 import {User} from "../../Models/user";
 import {Router} from "@angular/router";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TitleCasePipe} from "@angular/common";
-import {pipe} from "rxjs";
 
 @Component({
   selector: 'app-register',
@@ -14,13 +13,13 @@ import {pipe} from "rxjs";
 export class RegisterComponent implements OnInit {
 
 
-  form!: FormGroup
-  matches:boolean = false
-  show:boolean = false
-  showRepeat:boolean = false
+  registerForm!: FormGroup
+  passwordMatches:boolean = false
+  showPassword:boolean = false
+  showRepeatPassword:boolean = false
 
   constructor(private userService: UserService, private router: Router, private formBuilder: FormBuilder, private pipe: TitleCasePipe) {
-    this.form = formBuilder.group({
+    this.registerForm = formBuilder.group({
       firstName: new FormControl(null, Validators.compose([Validators.required])),
       lastName: new FormControl(null, Validators.compose([Validators.required])),
       email: new FormControl(null, Validators.compose([Validators.required])),
@@ -32,31 +31,31 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onView(){
-    this.show = !this.show
+  onShowPasswordClick(){
+    this.showPassword = !this.showPassword
   }
 
-  onViewRepeat(){
-    this.showRepeat = !this.showRepeat
+  onShowRepeatPasswordClick(){
+    this.showRepeatPassword = !this.showRepeatPassword
   }
 
-  get f() {
-    return this.form.controls
+  get formControls() {
+    return this.registerForm.controls
   }
 
-  onMatching(){
-    let pw =this.f['password'].value
-    let rpw =this.f['repeatPassword'].value
+  checkPasswordMatching(){
+    let pw =this.formControls['password'].value
+    let rpw =this.formControls['repeatPassword'].value
 
-    this.matches = pw == rpw;
+    this.passwordMatches = pw == rpw;
   }
 
   onSubmit() {
     let user: User = new User()
-    user.firstName = this.pipe.transform(String(this.form.get('firstName')?.value))
-    user.lastName = this.pipe.transform(String(this.form.get('lastName')?.value))
-    user.password = String(this.form.get('password')?.value)
-    user.email = String(this.form.get('email')?.value)
+    user.firstName = this.pipe.transform(String(this.registerForm.get('firstName')?.value))
+    user.lastName = this.pipe.transform(String(this.registerForm.get('lastName')?.value))
+    user.password = String(this.registerForm.get('password')?.value)
+    user.email = String(this.registerForm.get('email')?.value)
 
 
     this.userService.register(user).subscribe({

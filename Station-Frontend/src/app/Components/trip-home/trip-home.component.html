@@ -29,11 +29,11 @@
         <div class="row">
 
           <div class="col-auto" style="padding-right: 0">
-            <button class="btn" [ngClass]="{'btn-primary': !isArrival,'btn-light': isArrival}" (click)="onArrival(false)" style="border-radius: 5px 0 0 5px">Vertrek</button>
+            <button class="btn" [ngClass]="{'btn-primary': !isArrival,'btn-light': isArrival}" (click)="changeIsArrival(false)" style="border-radius: 5px 0 0 5px">Vertrek</button>
           </div>
 
           <div class="col-auto" style="padding-left: 0">
-            <button class="btn" [ngClass]="{'btn-primary': isArrival,'btn-light': !isArrival}" (click)="onArrival(true)" style="border-radius: 0 5px 5px 0">Aankomst</button>
+            <button class="btn" [ngClass]="{'btn-primary': isArrival,'btn-light': !isArrival}" (click)="changeIsArrival(true)" style="border-radius: 0 5px 5px 0">Aankomst</button>
           </div>
 
 
@@ -64,11 +64,11 @@
   </div>
 
 
-  <div class="row pt-4" *ngIf="trips">
+  <div class="row pt-4" *ngIf="foundTrips">
     <!--    shows trips on side-->
     <ul class="col-4 list-group">
-      <div class="list-group-item list-group-item-action p-3" *ngFor="let trip of trips; let i = index"
-           [attr.data-index]="i" style="list-style: none" (click)="onSelect(i)">
+      <div class="list-group-item list-group-item-action p-3" *ngFor="let trip of foundTrips; let i = index"
+           [attr.data-index]="i" style="list-style: none" (click)="onSelectingTrip(i)">
         <div>
           {{ trip.legs[0].origin.plannedDateTime | date : "HH:mm"}}
           <i class="bi bi-arrow-right"></i>

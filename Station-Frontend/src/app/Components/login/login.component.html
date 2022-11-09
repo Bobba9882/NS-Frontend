@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
   <div class="col-6 p-4 mt-xxl-5 mb-xxl-5" style="border-radius: 5px; background-color: white">
     <h2>Inloggen</h2>
-    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <form (ngSubmit)="onSubmitForm()" [formGroup]="form">
 
       <div class="form-group">
         <label>Email</label>
@@ -11,16 +11,16 @@
       <div class="form-group mt-2">
         <label>Wachtwoord</label>
         <div class="input-group">
-          <input class="form-control" id="password" formControlName="password" name="firstName" [type]="show? 'text' : 'password'" [style]="form.controls['password'].dirty ? 'border-right: 0' : null">
+          <input class="form-control" id="password" formControlName="password" name="firstName" [type]="showPassword? 'text' : 'password'" [style]="form.controls['password'].dirty ? 'border-right: 0' : null">
           <div class="input-group-text" style="background: transparent; border-left: 0" *ngIf="form.controls['password'].dirty">
-            <i (click)="onView()" [class]="show ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'" style="cursor: pointer"></i>
+            <i (click)="onShowPasswordClick()" [class]="showPassword ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'" style="cursor: pointer"></i>
           </div>
         </div>
 
       </div>
 
       <button class="btn btn-success mt-2" type="submit">Inloggen</button>
-      <button class="btn btn-secondary mt-2 ms-2" (click)="onRegister()">Registreren</button>
+      <button class="btn btn-secondary mt-2 ms-2" (click)="onRegisterClick()">Registreren</button>
     </form>
   </div>
 </div>
