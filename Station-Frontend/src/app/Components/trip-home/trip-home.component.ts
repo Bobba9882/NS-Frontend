@@ -41,28 +41,38 @@ export class TripHomeComponent implements OnInit {
       },
       complete: () => {
         this.onSelectingTrip(2);
-        this.userService.getUserData().subscribe({
-          next: value => {
-            this.user.savedTrips = value
-          },
-          complete: () => {
-            this.checkIfFavorite()
-          }
-        })
+        this.updateUser()
+      }
+    })
+  }
+
+  updateUser() {
+    this.userService.getUserData().subscribe({
+      next: value => {
+        this.user.savedTrips = value
+      },
+      complete: () => {
+        this.checkIfFavorite()
       }
     })
   }
 
   checkIfFavorite() {
     let savedTrips: string[] = []
-    this.user.savedTrips.forEach(value => {
-      savedTrips.push(value.ctxRecon)
+    this.user.savedTrips.forEach(trip => {
+      savedTrips.push(trip.ctxRecon)
     })
-    const values = this.foundTrips.filter(value => savedTrips.includes(value.ctxRecon))
 
-    this.foundTrips.forEach(value => {
-      if (values.includes(value)) {
-        value.isFavorite = true
+    const favoriteTrips = this.foundTrips.filter(value => savedTrips.includes(value.ctxRecon))
+
+    this.foundTrips.forEach(trip => {
+      if (favoriteTrips.includes(trip)) {
+        trip.isFavorite = true
+        let savedTrip: Trip
+        savedTrip = this.user.savedTrips.find(value => {
+          return value.ctxRecon == trip.ctxRecon
+        }) as Trip
+        trip.tripId = savedTrip.tripId
       }
     })
   }
@@ -98,10 +108,13 @@ export class TripHomeComponent implements OnInit {
   onFavorite() {
     this.selectedTrip.isFavorite = !this.selectedTrip.isFavorite
     if (this.selectedTrip.isFavorite) {
-      this.tripsService.saveTrip(this.selectedTrip.ctxRecon, this.user.id).subscribe()
+      this.tripsService.saveTrip(this.selectedTrip.ctxRecon, this.user.id).subscribe({
+        complete: () => this.updateUser()
+      })
     } else {
-      this.tripsService.deleteTrip(1)
+      this.tripsService.deleteTrip(this.selectedTrip.tripId).subscribe({
+        complete: () => this.updateUser()
+      })
     }
-
   }
 }

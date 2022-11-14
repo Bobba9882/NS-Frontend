@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {UserService} from "../../Services/user.service";
 import {User} from "../../Models/user";
+import {TripsService} from "../../Services/trips.service";
 
 @Component({
   selector: 'app-profile-home',
@@ -10,21 +11,31 @@ import {User} from "../../Models/user";
 })
 export class ProfileHomeComponent implements OnInit {
 
-  constructor(private router: Router, private userService:UserService) {
+  constructor(private router: Router, private userService:UserService, private tripsService: TripsService) {
   }
 
   user: User = JSON.parse(String(localStorage.getItem("user info"))) as User
 
   ngOnInit(): void {
-    this.userService.getUserData().subscribe({
-      next: value => {this.user.savedTrips = value}
-    })
+    this.updateUser()
   }
 
   logOut() {
     localStorage.clear()
     this.router.navigate(['home']).then(() => {
       window.location.reload()
+    })
+  }
+
+  updateUser(){
+    this.userService.getUserData().subscribe({
+      next: value => {this.user.savedTrips = value; console.log(value)}
+    })
+  }
+
+  deleteTrip(id:number){
+    this.tripsService.deleteTrip(id).subscribe({
+      complete: () => {this.updateUser()}
     })
   }
 }

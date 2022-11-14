@@ -36,7 +36,9 @@ export class TripsService {
 
   deleteTrip(id: number) {
     //code for saving trip
-    console.log("this trip has been deleted: " + id)
+    let params = new HttpParams()
+      .set("id", id)
+    return this.httpClient.delete(`${this.userURl}`,{params : params})
   }
 
   getTripsByUserId(id: number):Observable<Trip[]>{

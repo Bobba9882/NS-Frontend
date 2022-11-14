@@ -1,6 +1,7 @@
-export interface Trip{
+export class Trip{
   isFavorite: boolean
   id: number
+  tripId: number
   user:number
   ctxRecon : string
   plannedDurationInMinutes : string
