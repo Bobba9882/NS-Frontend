@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TripsService} from "../../Services/trips.service";
-import {Trip} from "../../Models/trip";
+import {Station, Trip} from "../../Models/trip";
 import {DatePipe, TitleCasePipe} from "@angular/common";
 import {AuthService} from "../../Services/auth.service";
 import {UserService} from "../../Services/user.service";
@@ -24,10 +24,17 @@ export class TripHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.onReset()
+    this.tripsService.getStations().subscribe({
+      next: value => {this.allStations = value},
+    })
   }
 
-  fromStation: string
-  toStation: string
+  allStations: Station[] = []
+
+  fromInput:string
+
+  fromStation: Station
+  toStation: Station
   tripTime: string
   tripDate: string
   isArrival: boolean = false
@@ -35,7 +42,7 @@ export class TripHomeComponent implements OnInit {
   onSubmit() {
     this.toTitleCase()
     let date: string = new Date(this.tripDate + " " + this.tripTime).toISOString()
-    this.tripsService.getTrips(this.fromStation, this.toStation, date, this.isArrival).subscribe({
+    this.tripsService.getTrips(this.fromStation.uicCode, this.toStation.uicCode, date, this.isArrival).subscribe({
       next: value => {
         this.foundTrips = value
       },
@@ -82,8 +89,8 @@ export class TripHomeComponent implements OnInit {
   }
 
   toTitleCase() {
-    this.fromStation = this.titlecasePipe.transform(this.fromStation)
-    this.toStation = this.titlecasePipe.transform(this.toStation)
+    this.fromStation.namen.lang = this.titlecasePipe.transform(this.fromStation.namen.lang)
+    this.toStation.namen.lang = this.titlecasePipe.transform(this.toStation.namen.lang)
   }
 
   onSelectingTrip(id: number) {

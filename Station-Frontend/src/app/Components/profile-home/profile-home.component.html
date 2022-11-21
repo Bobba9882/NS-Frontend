@@ -16,7 +16,7 @@
 
   <div class="row">
     <div class="row pt-1" *ngFor="let trip of user.savedTrips">
-      <h1 class="col-auto">Van {{trip.legs[0].origin.name}} naar {{trip.legs[trip.legs.length - 1].destination.name}}</h1>
+      <h1 class="col-auto">Van {{trip.legs[0].origin.namen.lang}} naar {{trip.legs[trip.legs.length - 1].destination.namen.lang}}</h1>
       <button class="btn btn-danger col-auto" (click)="deleteTrip(trip.tripId)">Delete</button>
     </div>
   </div>
