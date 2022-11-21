@@ -12,6 +12,8 @@ import {LoginComponent} from './Components/login/login.component';
 import {AuthInterceptor} from "./Services/auth.interceptor";
 import { RegisterComponent } from './Components/register/register.component';
 import { ProfileHomeComponent } from './Components/profile-home/profile-home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { ProfileHomeComponent } from './Components/profile-home/profile-home.com
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule
   ],
   providers: [
     TitleCasePipe,

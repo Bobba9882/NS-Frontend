@@ -17,10 +17,11 @@ export interface TripInformation {
   stops: Station[]
 }
 
-export interface Station {
+export class Station {
   routeIdx: number
   namen: Namen
-  uicCode: string
+  name:string
+  UICCode: string
   type: string
   plannedDateTime: string
   plannedTrack: string

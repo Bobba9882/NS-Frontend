@@ -12,21 +12,33 @@
 
     <!--    input form-->
     <div class="row justify-content-center">
-      <form (ngSubmit)="onSubmit()">
+      <form (ngSubmit)="onSubmit()" [formGroup]="form">
         <div class="row mb-3">
           <div class="input-group col-md">
             <span class="input-group-text">van</span>
-            <input id="fromStation" type="text" [(ngModel)]="fromInput" name="fromStation" class="form-control">
+            <input id="fromStation" type="text" formControlName="fromStation" name="fromStation" class="form-control" [matAutocomplete]="fromStationAuto">
           </div>
           <div class="col-auto align-self-center">
             <i class="bi bi-arrow-left-right" (click)="onSwap()"></i>
           </div>
           <div class="input-group col-md">
             <span class="input-group-text">naar</span>
-            <input id="toStation" type="text" [(ngModel)]="toStation" name="toStation" class="form-control">
+            <input id="toStation" type="text" formControlName="toStation" name="toStation" class="form-control" [matAutocomplete]="toStationAuto">
           </div>
         </div>
 
+
+        <mat-autocomplete #fromStationAuto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredFrom | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+
+        <mat-autocomplete #toStationAuto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredTo | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
 
         <div class="row">
 
@@ -44,11 +56,11 @@
 
 
           <div class="col-auto">
-            <input type="date" id="tripDate" [(ngModel)]="tripDate" name="tripDate" class="form-control">
+            <input type="date" id="tripDate" formControlName="tripDate" name="tripDate" class="form-control">
           </div>
 
           <div class="col-auto">
-            <input type="time" id="tripTime" [(ngModel)]="tripTime" name="tripTime" class="form-control">
+            <input type="time" id="tripTime" formControlName="tripTime" name="tripTime" class="form-control">
           </div>
 
           <div class="col-auto align-self-center" (click)="onReset()">
@@ -139,7 +151,7 @@
           <!--          shows the first station-->
           <li class="row">
             <h5 class="col-1">{{selectedTrip.legs[0].origin.plannedDateTime | date : "HH:mm"}}</h5>
-            <h5 class="col-auto"> {{selectedTrip.legs[0].origin.namen.lang}} </h5>
+            <h5 class="col-auto"> {{selectedTrip.legs[0].origin.name}} </h5>
 
             <!--            shows departure track-->
             <div class="col ms-auto">
@@ -164,7 +176,7 @@
           <ng-container *ngFor="let stop of selectedTrip.legs|slice:1; let i = index">
             <li class="row">
               <h5 class="col-1">{{stop.origin.plannedDateTime | date : "HH:mm"}}</h5>
-              <h5 class="col-auto"> {{stop.origin.namen.lang}} </h5>
+              <h5 class="col-auto"> {{stop.origin.name}} </h5>
 
               <div class="col ms-auto">
 
@@ -193,7 +205,7 @@
           <li class="row">
             <h5
               class="col-1">{{selectedTrip.legs[selectedTrip.legs.length - 1].destination.plannedDateTime | date : "HH:mm"}}</h5>
-            <h5 class="col-auto"> {{selectedTrip.legs[selectedTrip.legs.length - 1].destination.namen.lang}} </h5>
+            <h5 class="col-auto"> {{selectedTrip.legs[selectedTrip.legs.length - 1].destination.name}} </h5>
 
             <div class="col ms-auto">
               <div class="row justify-content-end">
