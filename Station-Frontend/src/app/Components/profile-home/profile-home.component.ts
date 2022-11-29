@@ -3,6 +3,8 @@ import {Router} from "@angular/router";
 import {UserService} from "../../Services/user.service";
 import {User} from "../../Models/user";
 import {TripsService} from "../../Services/trips.service";
+import {Trip} from "../../Models/trip";
+import {TripHomeComponent} from "../trip-home/trip-home.component";
 
 @Component({
   selector: 'app-profile-home',
@@ -29,7 +31,7 @@ export class ProfileHomeComponent implements OnInit {
 
   updateUser(){
     this.userService.getUserData().subscribe({
-      next: value => {this.user.savedTrips = value; console.log(value)}
+      next: value => {this.user.savedTrips = value;}
     })
   }
 
@@ -37,5 +39,10 @@ export class ProfileHomeComponent implements OnInit {
     this.tripsService.deleteTrip(id).subscribe({
       complete: () => {this.updateUser()}
     })
+  }
+
+  redirectToShowTrip(trip:Trip){
+    TripHomeComponent.SelectedTrip = trip
+    this.router.navigate(['home'])
   }
 }

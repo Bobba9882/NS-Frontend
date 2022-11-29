@@ -6,18 +6,18 @@
   </div>
   <hr>
 
-
-
-  <div class="row">
-    <div class="col-1">
-      <button type="button" class="btn btn-danger" (click)="logOut()">Uitloggen</button>
-    </div>
-  </div>
-
   <div class="row">
     <div class="row pt-1" *ngFor="let trip of user.savedTrips">
-      <h1 class="col-auto">Van {{trip.legs[0].origin.namen.lang}} naar {{trip.legs[trip.legs.length - 1].destination.namen.lang}}</h1>
-      <button class="btn btn-danger col-auto" (click)="deleteTrip(trip.tripId)">Delete</button>
+      <h3 class="col-auto m-0">Van {{trip.legs[0].origin.name}}
+        naar {{trip.legs[trip.legs.length - 1].destination.name}}</h3>
+      <button class="btn btn-primary col-auto" style="border-radius: 15px 0 0 15px" (click)="redirectToShowTrip(trip)">Bekijk</button>
+      <button class="btn btn-secondary col-auto" style="border-radius: 0 15px 15px 0" (click)="deleteTrip(trip.tripId)">Verwijder</button>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-1">
+        <button type="button" class="btn btn-danger" (click)="logOut()">Uitloggen</button>
+      </div>
     </div>
   </div>
 </div>

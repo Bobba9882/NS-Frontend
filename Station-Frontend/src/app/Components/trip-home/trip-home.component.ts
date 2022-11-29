@@ -22,7 +22,8 @@ export class TripHomeComponent implements OnInit {
 
   foundTrips: Trip[]
 
-  selectedTrip: Trip
+  public static SelectedTrip: Trip
+  _selectedTrip: Trip = TripHomeComponent.SelectedTrip
 
   form = new FormGroup({
     fromStation: new FormControl('', Validators.required),
@@ -48,6 +49,7 @@ export class TripHomeComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value || '')),
     );
+
   }
 
   private _filter(value: string): string[] {
@@ -71,9 +73,6 @@ export class TripHomeComponent implements OnInit {
     let fromStation = temp.find(x => x.namen.lang == this.form.controls["fromStation"].value) as Station
     let toStation = temp.find(x => x.namen.lang == this.form.controls["toStation"].value) as Station
 
-    console.log(fromStation)
-    console.log(toStation)
-
     let date: string = new Date(this.form.controls['tripDate'].value + " " + this.form.controls['tripTime'].value).toISOString()
     this.tripsService.getTrips(fromStation.UICCode, toStation.UICCode, date, this.isArrival).subscribe({
       next: value => {
@@ -81,50 +80,18 @@ export class TripHomeComponent implements OnInit {
       },
       complete: () => {
         this.onSelectingTrip(2);
-        this.updateUser()
       }
     })
   }
 
-  updateUser() {
-    this.userService.getUserData().subscribe({
-      next: value => {
-        this.user.savedTrips = value
-      },
-      complete: () => {
-        this.checkIfFavorite()
-      }
-    })
-  }
-
-  checkIfFavorite() {
-    let savedTrips: string[] = []
-    this.user.savedTrips.forEach(trip => {
-      savedTrips.push(trip.ctxRecon)
-    })
-
-    const favoriteTrips = this.foundTrips.filter(value => savedTrips.includes(value.ctxRecon))
-
-    this.foundTrips.forEach(trip => {
-      if (favoriteTrips.includes(trip)) {
-        trip.isFavorite = true
-        let savedTrip: Trip
-        savedTrip = this.user.savedTrips.find(value => {
-          return value.ctxRecon == trip.ctxRecon
-        }) as Trip
-        trip.tripId = savedTrip.tripId
-      }
-    })
-  }
 
   changeIsArrival(bool: boolean) {
     this.isArrival = bool
   }
 
   onSelectingTrip(id: number) {
-    this.selectedTrip = this.foundTrips[id]
-    this.selectedTrip.id = id
-    console.log(this.selectedTrip)
+    this._selectedTrip = this.foundTrips[id]
+    this._selectedTrip.id = id
 
   }
 
@@ -138,18 +105,5 @@ export class TripHomeComponent implements OnInit {
     let today = new Date()
     this.form.patchValue({tripDate: <string>this.datePipe.transform(today, "yyyy-MM-dd")})
     this.form.patchValue({tripTime: <string>this.datePipe.transform(today, "HH:mm")})
-  }
-
-  onFavorite() {
-    this.selectedTrip.isFavorite = !this.selectedTrip.isFavorite
-    if (this.selectedTrip.isFavorite) {
-      this.tripsService.saveTrip(this.selectedTrip.ctxRecon, this.user.id).subscribe({
-        complete: () => this.updateUser()
-      })
-    } else {
-      this.tripsService.deleteTrip(this.selectedTrip.tripId).subscribe({
-        complete: () => this.updateUser()
-      })
-    }
   }
 }

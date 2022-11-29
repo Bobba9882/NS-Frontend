@@ -14,6 +14,7 @@ import { RegisterComponent } from './Components/register/register.component';
 import { ProfileHomeComponent } from './Components/profile-home/profile-home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { SelectedTripViewComponent } from './Components/trip-view/selected-trip-view.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     TripHomeComponent,
     LoginComponent,
     RegisterComponent,
-    ProfileHomeComponent
+    ProfileHomeComponent,
+    SelectedTripViewComponent
   ],
   imports: [
     BrowserModule,
