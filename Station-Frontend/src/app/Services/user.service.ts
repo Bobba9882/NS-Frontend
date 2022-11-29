@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {Token} from "../Models/token";
+import {HttpClient} from "@angular/common/http";
 import {User} from "../Models/user";
+import jwtDecode from "jwt-decode";
+import {TripsService} from "./trips.service";
+import {Trip} from "../Models/trip";
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,26 @@ export class UserService {
 
   private baseURl: string = "http://localhost:9090/api/v1/user"
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private tripService: TripsService) {
   }
 
-  register(user : User){
-    console.log(user.firstName)
-    console.log(user.lastName)
-    console.log(user.password)
-    console.log(user.email)
+  public decodeUserToken(token: string) {
+    const decodedInfo = jwtDecode<any>(token)
+
+    let user = new User()
+    user.email = decodedInfo.email
+    user.firstName = decodedInfo.firstName
+    user.lastName = decodedInfo.lastName
+    user.id = decodedInfo.userId
+    localStorage.setItem("user info", JSON.stringify(user))
+  }
+
+  getUserData() {
+    let user: User = JSON.parse(String(localStorage.getItem("user info"))) as User
+    return this.tripService.getTripsByUserId(user.id)
+  }
+
+  register(user: User) {
     return this.httpClient.post<User>(`${this.baseURl}`, user)
   }
 }

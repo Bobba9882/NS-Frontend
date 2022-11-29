@@ -11,6 +11,10 @@ import {DatePipe, TitleCasePipe} from "@angular/common";
 import {LoginComponent} from './Components/login/login.component';
 import {AuthInterceptor} from "./Services/auth.interceptor";
 import { RegisterComponent } from './Components/register/register.component';
+import { ProfileHomeComponent } from './Components/profile-home/profile-home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import { SelectedTripViewComponent } from './Components/trip-view/selected-trip-view.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,9 @@ import { RegisterComponent } from './Components/register/register.component';
     DisruptionListComponent,
     TripHomeComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProfileHomeComponent,
+    SelectedTripViewComponent
   ],
   imports: [
     BrowserModule,
@@ -26,6 +32,8 @@ import { RegisterComponent } from './Components/register/register.component';
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatAutocompleteModule
   ],
   providers: [
     TitleCasePipe,

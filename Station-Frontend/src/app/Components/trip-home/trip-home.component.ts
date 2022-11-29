@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {TripsService} from "../../Services/trips.service";
-import {Trip} from "../../Models/trip";
+import {Station, Trip} from "../../Models/trip";
 import {DatePipe, TitleCasePipe} from "@angular/common";
 import {AuthService} from "../../Services/auth.service";
 import {UserService} from "../../Services/user.service";
+import {User} from "../../Models/user";
+import {map, Observable, startWith} from "rxjs";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-trip-home',
@@ -12,57 +15,95 @@ import {UserService} from "../../Services/user.service";
 })
 export class TripHomeComponent implements OnInit {
 
-  constructor(private tripsService: TripsService, private titlecasePipe: TitleCasePipe, private datePipe: DatePipe, public authService : AuthService) {
+  constructor(private tripsService: TripsService, private titlecasePipe: TitleCasePipe, private datePipe: DatePipe, public authService: AuthService, private userService: UserService) {
   }
 
-  Trips: Trip[]
+  user: User = JSON.parse(String(localStorage.getItem("user info"))) as User
 
-  selectedTrip: Trip
+  foundTrips: Trip[]
+
+  public static SelectedTrip: Trip
+  _selectedTrip: Trip = TripHomeComponent.SelectedTrip
+
+  form = new FormGroup({
+    fromStation: new FormControl('', Validators.required),
+    toStation: new FormControl('', Validators.required),
+    tripDate: new FormControl('', Validators.required),
+    tripTime: new FormControl('', Validators.required),
+  })
+
 
   ngOnInit(): void {
     this.onReset()
+    this.tripsService.getStations().subscribe({
+      next: value => {
+        this.allStations = value
+      },
+    })
+    this.filteredFrom = this.form.controls['fromStation'].valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+
+    this.filteredTo = this.form.controls['toStation'].valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value || '')),
+    );
+
   }
 
-  fromStation: string
-  toStation: string
-  tripTime: string
-  tripDate: string
-  isArrival : boolean = false
+  private _filter(value: string): string[] {
+    let stations: string[] = []
+    this.allStations.forEach(value1 => {
+      stations.push(value1.namen.lang)
+    })
+
+    const filterValue = value.toLowerCase();
+
+    return stations.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  allStations: Station[] = []
+  filteredFrom: Observable<string[]>
+  filteredTo: Observable<string[]>
+  isArrival: boolean = false
 
   onSubmit() {
-   this.toTitlecase()
-    let date: string = new Date(this.tripDate + " " + this.tripTime).toISOString()
-    this.tripsService.getTrips(this.fromStation, this.toStation, date, this.isArrival).subscribe({
-      next: value => this.Trips = value.trips,
-      complete: () => this.selectedTrip = this.Trips[2]
+    let temp = this.allStations
+    let fromStation = temp.find(x => x.namen.lang == this.form.controls["fromStation"].value) as Station
+    let toStation = temp.find(x => x.namen.lang == this.form.controls["toStation"].value) as Station
+
+    let date: string = new Date(this.form.controls['tripDate'].value + " " + this.form.controls['tripTime'].value).toISOString()
+    this.tripsService.getTrips(fromStation.UICCode, toStation.UICCode, date, this.isArrival).subscribe({
+      next: value => {
+        this.foundTrips = value
+      },
+      complete: () => {
+        this.onSelectingTrip(2);
+      }
     })
   }
 
-  onArrival(bool : boolean){
+
+  changeIsArrival(bool: boolean) {
     this.isArrival = bool
   }
 
-  toTitlecase(){
-    this.fromStation = this.titlecasePipe.transform(this.fromStation)
-    this.toStation = this.titlecasePipe.transform(this.toStation)
-  }
-
-  onSelect(id: number) {
-    this.selectedTrip = this.Trips[id]
+  onSelectingTrip(id: number) {
+    this._selectedTrip = this.foundTrips[id]
+    this._selectedTrip.id = id
 
   }
 
   onSwap() {
-    this.toTitlecase()
-    let temp = this.fromStation
-    this.fromStation = this.toStation
-    this.toStation = temp
+    let temp = this.form.controls['fromStation'].value
+    this.form.patchValue({fromStation: this.form.controls["toStation"].value})
+    this.form.patchValue({toStation: temp})
   }
 
   onReset() {
     let today = new Date()
-    this.tripDate = <string>this.datePipe.transform(today, "yyyy-MM-dd")
-    this.tripTime = <string>this.datePipe.transform(today, "HH:mm")
+    this.form.patchValue({tripDate: <string>this.datePipe.transform(today, "yyyy-MM-dd")})
+    this.form.patchValue({tripTime: <string>this.datePipe.transform(today, "HH:mm")})
   }
-
 }

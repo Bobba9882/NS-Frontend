@@ -6,6 +6,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import {Observable} from 'rxjs';
+import jwtDecode, {JwtPayload} from "jwt-decode";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -14,13 +15,25 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem("auth token")
+    const authToken = localStorage.getItem("auth token")
 
-    if (token) {
-      const cloned = request.clone({
-        headers: request.headers.set("Authorization", "Bearer " + token)
-      })
-      return next.handle(cloned)
+    if (authToken) {
+
+      const expiration = jwtDecode<JwtPayload>(authToken).exp
+      const expirationDate = new Date(0)
+      expirationDate.setUTCSeconds(<number>expiration)
+
+      if (expirationDate >= new Date()) {
+        const cloned = request.clone({
+          headers: request.headers.set("Authorization", "Bearer " + authToken)
+        })
+        return next.handle(cloned)
+      } else {
+        alert("your login session has expired")
+        localStorage.clear()
+        location.reload()
+        return next.handle(request)
+      }
     } else {
       return next.handle(request)
     }

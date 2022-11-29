@@ -11,9 +11,4 @@ export class AppComponent {
   title = 'Station-frontend';
   constructor(public authService : AuthService) {
   }
-
-  onLogout(){
-    localStorage.clear()
-    location.reload()
-  }
 }
