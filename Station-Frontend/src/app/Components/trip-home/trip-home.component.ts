@@ -53,7 +53,7 @@ export class TripHomeComponent implements OnInit {
   }
 
   private _filter(value: string): string[] {
-    let stations: string[] = []
+    const stations: string[] = []
     this.allStations.forEach(value1 => {
       stations.push(value1.namen.lang)
     })
@@ -69,11 +69,11 @@ export class TripHomeComponent implements OnInit {
   isArrival: boolean = false
 
   onSubmit() {
-    let temp = this.allStations
-    let fromStation = temp.find(x => x.namen.lang == this.form.controls["fromStation"].value) as Station
-    let toStation = temp.find(x => x.namen.lang == this.form.controls["toStation"].value) as Station
+    const temp = this.allStations
+    const fromStation = temp.find(x => x.namen.lang == this.form.controls["fromStation"].value) as Station
+    const toStation = temp.find(x => x.namen.lang == this.form.controls["toStation"].value) as Station
 
-    let date: string = new Date(this.form.controls['tripDate'].value + " " + this.form.controls['tripTime'].value).toISOString()
+    const date: string = new Date(this.form.controls['tripDate'].value + " " + this.form.controls['tripTime'].value).toISOString()
     this.tripsService.getTrips(fromStation.UICCode, toStation.UICCode, date, this.isArrival).subscribe({
       next: value => {
         this.foundTrips = value
@@ -96,13 +96,13 @@ export class TripHomeComponent implements OnInit {
   }
 
   onSwap() {
-    let temp = this.form.controls['fromStation'].value
+    const temp = this.form.controls['fromStation'].value
     this.form.patchValue({fromStation: this.form.controls["toStation"].value})
     this.form.patchValue({toStation: temp})
   }
 
   onReset() {
-    let today = new Date()
+    const today = new Date()
     this.form.patchValue({tripDate: <string>this.datePipe.transform(today, "yyyy-MM-dd")})
     this.form.patchValue({tripTime: <string>this.datePipe.transform(today, "HH:mm")})
   }

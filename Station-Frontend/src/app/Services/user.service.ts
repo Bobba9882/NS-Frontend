@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {User} from "../Models/user";
 import jwtDecode from "jwt-decode";
 import {TripsService} from "./trips.service";
-import {Trip} from "../Models/trip";
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +15,9 @@ export class UserService {
   }
 
   public decodeUserToken(token: string) {
-    const decodedInfo = jwtDecode<any>(token)
+    const decodedInfo = jwtDecode<User>(token)
 
-    let user = new User()
+    const user = new User()
     user.email = decodedInfo.email
     user.firstName = decodedInfo.firstName
     user.lastName = decodedInfo.lastName
@@ -27,7 +26,7 @@ export class UserService {
   }
 
   getUserData() {
-    let user: User = JSON.parse(String(localStorage.getItem("user info"))) as User
+    const user: User = JSON.parse(String(localStorage.getItem("user info"))) as User
     return this.tripService.getTripsByUserId(user.id)
   }
 

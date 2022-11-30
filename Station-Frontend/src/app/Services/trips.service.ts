@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Station, Trip} from "../Models/trip";
-import {Disruption} from "../Models/disruption";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,7 @@ export class TripsService {
   }
 
   getTrips(fromStation: string, toStation: string, date: string, isArrival: boolean): Observable<Trip[]> {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set("fromStation", fromStation)
       .set("toStation", toStation)
       .set("date", date)
@@ -28,7 +27,7 @@ export class TripsService {
 
   saveTrip(data:string, id:number) {
     //code for saving trip
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set("data", data)
       .set("id", id)
     return this.httpClient.post(`${this.userURl}`, {},{params : params})
@@ -36,13 +35,13 @@ export class TripsService {
 
   deleteTrip(id: number) {
     //code for saving trip
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set("id", id)
     return this.httpClient.delete(`${this.userURl}`,{params : params})
   }
 
   getTripsByUserId(id: number):Observable<Trip[]>{
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set("id", id)
     return this.httpClient.get<Trip[]>(`${this.userURl}`, {params:params})
   }

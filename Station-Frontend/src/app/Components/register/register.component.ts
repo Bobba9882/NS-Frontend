@@ -44,14 +44,14 @@ export class RegisterComponent implements OnInit {
   }
 
   checkPasswordMatching(){
-    let pw =this.formControls['password'].value
-    let rpw =this.formControls['repeatPassword'].value
+    const pw =this.formControls['password'].value
+    const rpw =this.formControls['repeatPassword'].value
 
     this.passwordMatches = pw == rpw;
   }
 
   onSubmit() {
-    let user: User = new User()
+    const user: User = new User()
     user.firstName = this.pipe.transform(String(this.registerForm.get('firstName')?.value))
     user.lastName = this.pipe.transform(String(this.registerForm.get('lastName')?.value))
     user.password = String(this.registerForm.get('password')?.value)

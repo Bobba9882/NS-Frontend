@@ -45,7 +45,7 @@ export class SelectedTripViewComponent implements OnInit {
   }
 
   checkIfFavorite() {
-    let savedTrips: string[] = []
+    const savedTrips: string[] = []
     this.user.savedTrips.forEach(trip => {
       savedTrips.push(trip.ctxRecon)
     })

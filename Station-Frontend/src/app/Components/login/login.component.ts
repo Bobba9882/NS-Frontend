@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
 
 
   onSubmitForm() {
-    let email = String(this.form.get('email')?.value)
-    let password = String(this.form.get('password')?.value)
+    const email = String(this.form.get('email')?.value)
+    const password = String(this.form.get('password')?.value)
     this.authService
       .createToken(email, password)
       .subscribe({

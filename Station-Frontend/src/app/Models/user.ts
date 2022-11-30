@@ -6,5 +6,7 @@ export class User {
   lastName : string
   email : string
   password : string
+
+  userId:number
   savedTrips: Trip[]
 }
