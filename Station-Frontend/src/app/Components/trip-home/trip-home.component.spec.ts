@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TripHomeComponent } from './trip-home.component';
+import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {DatePipe, TitleCasePipe} from "@angular/common";
+import {MatAutocomplete} from "@angular/material/autocomplete";
 
 describe('TripHomeComponent', () => {
   let component: TripHomeComponent;
@@ -8,7 +11,9 @@ describe('TripHomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TripHomeComponent ]
+      declarations: [ TripHomeComponent, MatAutocomplete ],
+      imports: [HttpClientTestingModule],
+      providers: [TitleCasePipe, DatePipe]
     })
     .compileComponents();
 
